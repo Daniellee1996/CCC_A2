@@ -6,6 +6,7 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 from config import TwitterCredentails # your keys, format list of dicts
 from urllib3.exceptions import ProtocolError
+import time
 
 GEOBOX_VIC = [143.997737216,-37.3844385432, 146.0421447046,-38.1044516321]
 GEOBOX_MELB = [143.997737216,-37.3844385432, 146.0421447046,-38.1044516321]
@@ -76,7 +77,7 @@ class StdOutListener(StreamListener):
 # #stream.filter(track=hash_tag_list,locations = GEOBOX_MELB)
 # stream.filter(track=["covid"])
 # print(stream.running)
-def srteam_havest(max_tweets = MAX_TWEETS, track = ["covid"], locations = GEOBOX_MELB):
+def srteam_havest(max_tweets = MAX_TWEETS, track = ["covid"], locations = GEOBOX_MELB): # typo
     global N_HARVESTED
     logging.debug('harvesting started with max tweets = %s', MAX_TWEETS)
     while N_HARVESTED <= max_tweets:
@@ -104,4 +105,4 @@ def srteam_havest(max_tweets = MAX_TWEETS, track = ["covid"], locations = GEOBOX
             time.sleep(60)
             srteam_havest(max_tweets,track,locations)
 
-srteam_havest(locations = None)
+srteam_havest(locations = GEOBOX_AU)
