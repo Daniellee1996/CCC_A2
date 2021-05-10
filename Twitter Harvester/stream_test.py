@@ -1,6 +1,8 @@
 import tweepy
 import datetime as dt
 import logging
+import couchdb
+import json
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -15,9 +17,17 @@ MAX_TWEETS = 50000
 N_HARVESTED = 0
 KEY_INDEX = 0
 
+# couchDB set up
+COUCHDB_SERVER='http://admin:admin@172.26.132.158:49186/'
+DBNAME = 'stream_test'
+couch = couchdb.Server(COUCHDB_SERVER)
+db = couch[DBNAME]
 
 logging.basicConfig(filename='stream.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
 
+def upload2couchDB(row):
+    data = json.loads(row)
+    db.save(data)
 
 def switch_keys():
     max_index = len(TwitterCredentails) - 1
@@ -46,12 +56,17 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
         try:
-            with open("stream_sample.txt", 'a') as tf:
-                tf.write(data)
-                global N_HARVESTED
-                N_HARVESTED += 1
-                # if N_HARVESTED % 10 == 0:
-                #     print(N_HARVESTED, 'tweets havested')
+            # with open("stream_sample.txt", 'a') as tf:
+            #     tf.write(data)
+            #     global N_HARVESTED
+            #     N_HARVESTED += 1
+            #     # if N_HARVESTED % 10 == 0:
+            #     #     print(N_HARVESTED, 'tweets havested')
+            upload2couchDB(data)
+            global N_HARVESTED
+            N_HARVESTED += 1
+            if N_HARVESTED % 10 == 0:
+                print(N_HARVESTED, 'tweets havested')
             return True
         except BaseException as e:
             print("Error on_data: %s" % str(e))
@@ -105,4 +120,7 @@ def srteam_havest(max_tweets = MAX_TWEETS, track = ["covid"], locations = GEOBOX
             time.sleep(60)
             srteam_havest(max_tweets,track,locations)
 
-srteam_havest(locations = GEOBOX_AU)
+
+
+if __name__ == '__main__':
+    srteam_havest(locations = GEOBOX_AU)
