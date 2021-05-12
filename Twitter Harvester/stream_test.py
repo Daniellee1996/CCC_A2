@@ -49,6 +49,14 @@ def load_auth(index = KEY_INDEX):
     # load the twitter API via tweepy
     return auth
 
+def write2file(data):
+    with open("stream_sample.txt", 'a') as tf:
+        tf.write(data)
+        global N_HARVESTED
+        N_HARVESTED += 1
+        if N_HARVESTED % 10 == 0:
+            print(N_HARVESTED, 'tweets havested')
+
 class StdOutListener(StreamListener):
     """
     This is a basic listener class that just prints received tweets to stdout.
@@ -56,13 +64,8 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
         try:
-            # with open("stream_sample.txt", 'a') as tf:
-            #     tf.write(data)
-            #     global N_HARVESTED
-            #     N_HARVESTED += 1
-            #     # if N_HARVESTED % 10 == 0:
-            #     #     print(N_HARVESTED, 'tweets havested')
-            upload2couchDB(data)
+            write2file(data)
+            # upload2couchDB(data)
             global N_HARVESTED
             N_HARVESTED += 1
             if N_HARVESTED % 10 == 0:
@@ -123,4 +126,4 @@ def srteam_havest(max_tweets = MAX_TWEETS, track = ["covid"], locations = GEOBOX
 
 
 if __name__ == '__main__':
-    srteam_havest(locations = GEOBOX_AU)
+    srteam_havest(track = None, locations = GEOBOX_AU)
