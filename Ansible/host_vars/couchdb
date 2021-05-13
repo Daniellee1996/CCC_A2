@@ -4,7 +4,7 @@ docker run -itd -p 5984:5984 -p 5986:5986 --name=couchdb0 \
 ibmcom/couchdb3:3.1.1
 
 
-export declare -a nodes=(172.17.0.2)
+export declare -a nodes=(172.26.128.214 172.26.129.188 172.26.128.218)
 export masternode=`echo ${nodes} | cut -f1 -d' '`
 export declare -a othernodes=`echo ${nodes[@]} | sed s/${masternode}//`
 export size=${#nodes[@]}

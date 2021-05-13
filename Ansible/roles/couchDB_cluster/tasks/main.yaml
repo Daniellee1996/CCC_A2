@@ -16,7 +16,7 @@
 - name: couchDB cluster to enable the cluster with each node to set up
   become: yes
   uri:
-    url: http://{{masternode}}:5984/{{cluster_name}}
+    url: 'http://{{masternode}}:5984/{{cluster_name}}'
     status_code: 201
     method: POST
     user: "{{ couchdb_user }}"
@@ -37,7 +37,7 @@
 
 - name: couchDB cluster to join all the nodes to cluster 
   uri: 
-    url: 'http://{{masternode}}:5984/"{{cluster_name}}"'
+    url: 'http://{{masternode}}:5984/{{cluster_name}}'
     method: POST
     user: "{{ couchdb_user }}"
     password: "{{ couchdb_password }}"
