@@ -1,0 +1,44 @@
+---
+- name: Older versions of Docker were called docker, docker.io, or docker-engine. If these are installed, uninstall them
+  become: yes
+  apt:
+    name: ['docker','docker-engine','docker.io','containerd','runc']
+    state: absent
+
+- name: Update the apt package index and install packages to allow apt to use a repository over HTTPS
+  become: yes
+  apt:
+    name: ['apt-transport-https','ca-certificates','curl','gnupg','lsb-release']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+    
+#ref:https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-18-04
+- name: Add Docker GPG apt Key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  become: yes
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu/ focal stable
+    state: present
+
+- name: install docker relevant packages
+  become: yes
+  apt: 
+    name: ['docker-ce','docker-ce-cli','containerd.io']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+
+
+- name: Install docker-compose
+  become: yes
+  pip:
+
+    name: 'docker-compose'
+    state: latest

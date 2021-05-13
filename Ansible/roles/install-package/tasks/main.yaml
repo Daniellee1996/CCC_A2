@@ -1,0 +1,47 @@
+---
+- name: Install python
+  become: yes
+  apt:
+    name: 'python3-pip'
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Install node-grunt-cli
+  become: yes
+  apt: 
+    name: 'node-grunt-cli'
+    state : latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Install jq
+  become: yes
+  apt:
+    name: 'jq'
+    state : latest
+    install_recommends: no
+    update_cache: yes
+# node install
+# - name: Install nvm
+#   #become: yes
+#   ansible.builtin.command: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  
+  
+
+# - name: Install nodejs
+#   become: yes
+#   command: nvm install 12.11.0
+
+# - name: Add nodes to CouchDB cluster
+#   uri:
+#     url: http://{{ masternode }}:5984/_cluster_setup
+#     method: POST
+#     user: "{{ user }}"
+#     password: "{{ pass }}"
+#     force_basic_auth: yes
+#     status_code: 200, 201
+#     headers:
+#       Content-Type: "application/json"
+#     body_format: json
+#     body: "{\"action\": \"enable_cluster\", \"bind_address\": \"0.0.0.0\", \"username\":\"{{ user }}\", \"password\": \"{{ pass }}\", \"port\": \"5984\", \"remote_node\": \"{{ inventory_hostname }}\", \"node_count\": \"3\",\"remote_current_user\": \"{{ user }}\", \"remote_current_password\":\"{{ pass }}\"}"

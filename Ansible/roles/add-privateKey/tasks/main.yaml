@@ -1,0 +1,8 @@
+---
+- name: add private key
+  copy:
+    src: "host_vars/private_key.pem"
+    dest: ~/.ssh/private_key.pem
+#    owner: ubuntu
+#    group: ubuntu
+    mode: 0600

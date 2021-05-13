@@ -1,0 +1,35 @@
+---
+- name: stop the couchDB  container
+  docker_container:
+    name: "{{couchdb_name}}"
+    image: "{{couchdb_image}}"
+    state: stopped
+
+- name: remove couchDB container
+  docker_container:
+    name: "{{couchdb_name}}"
+    image: "{{couchdb_image}}"
+    state: absent
+
+
+- name: create couchDB by using the docker_container
+  become: yes
+  docker_container:
+    name: "{{couchdb_name}}"
+    image: "{{couchdb_image}}"
+    state: started
+    recreate: true
+    pull: yes
+    ports:
+      - "{{couchdb_port1}}:{{couchdb_port1}}"
+      - "{{couchdb_port2}}:{{couchdb_port2}}"
+      - "{{couchdb_port3}}:{{couchdb_port3}}"
+      - "{{couchdb_port4}}:{{couchdb_port4}}"
+    volumes:
+      - /data
+    pull: yes
+    env:
+      COUCHDB_USER: "{{ couchdb_user }}"
+      COUCHDB_PASSWORD: "{{ couchdb_password }}"
+      COUCHDB_SECRET: "{{ couchdb_cookie }}"
+      ERL_FLAGS: "-setcookie \"{{ couchdb_cookie }}\" -name \"couchdb""

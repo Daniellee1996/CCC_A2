@@ -1,0 +1,22 @@
+---
+ansiple_python_interpreter: /usr/bin/python3
+ansible_user: ubuntu
+ansible_ssh_private_key_file: ~/.ssh/private_key.pem
+couchdb_image: ibmcom/couchdb3:3.1.1
+couchdb_name: couchDB
+couchdb_user: admin
+couchdb_password: admin
+couchdb_cookie: 'a192aeb9904e6590849337933b000c99'
+cluster_name: '_cluster_setup'
+couchdb_container_name: 'couchdb'
+couchdb_port1: 5984
+couchdb_port2: 4369
+couchdb_port3: 9100
+couchdb_port4: 9200
+# export declare -a nodes=(172.17.0.4 172.17.0.3 172.17.0.2)
+# export masternode=`echo ${nodes} | cut -f1 -d' '`
+# export declare -a othernodes=`echo ${nodes[@]} | sed s/${masternode}//`
+# export size=${#nodes[@]}
+# export user='admin'
+# export pass='admin'
+

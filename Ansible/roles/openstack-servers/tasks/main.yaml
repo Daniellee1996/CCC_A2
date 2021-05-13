@@ -1,0 +1,24 @@
+# Gather facts about all servers named C<web*>:
+- name: Retrieve all available Openstack instances
+  os_server_info:
+  register: instance_result
+
+- name: Get instance names and ips
+  set_fact:
+    instance_facts: "{{ instance_facts|default([]) + [ {'name': item.name, 'id': item.public_v4} ] }}"
+  loop: '{{ instance_result.openstack_servers }}'
+  # when: item.name is defined
+
+
+- name: Show instances names and ip
+  debug:
+    msg: "Instance name: {{ item.name }}; Instance id: {{ item.id }}"
+  loop: '{{ instance_facts }}'
+
+- name: add host to ini file
+  add_host:
+    name: "{{ item.id }}"
+    groups: created_nodes
+  loop: '{{ instance_facts }}'
+    
+  
