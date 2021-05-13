@@ -3,10 +3,10 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 import argparse
-import json as js
 import time
 import csv
 import json
+import simplejson
 import pandas as pd
 import couchdb
 import json
@@ -95,14 +95,14 @@ def get_all_tweets(screen_name):
     # pass
 
 
-
 if __name__ == '__main__':
     api = load_api()
     screen_names = []
     with open('stream_sample.txt') as f:
         for line in f:
-            screen_names.append(js.loads(line)['user']['screen_name'])
+            screen_names.append(json.loads(line)['user']['screen_name'])
 	#pass in the username of the account you want to download
+    print('havesting started')
     for n in screen_names:
 	    get_all_tweets(n)
     print('done')
