@@ -13,7 +13,8 @@ import json
 import os
 from pathlib import Path
 from config import TwitterCredentails # your keys, format list of dicts
-
+from couchDB_setting import *
+from sentimental_score_calculator import SentiScoreCalculator
 
 
 #CouchDB authentication
@@ -56,9 +57,16 @@ def get_all_tweets(screen_name):
     ### END OF WHILE LOOP ###
     #for t in alltweets:
         #print(t)
-    outtweets = [[tweet.id, tweet.created_at, tweet.place, tweet.coordinates, tweet.text, tweet.entities, tweet.retweet_count, tweet.favorite_count,
-    tweet.lang, tweet.user] for tweet in alltweets]
-    print(outtweets)
+    # outtweets = [[tweet.id, tweet.created_at, tweet.place, tweet.coordinates, tweet.text, tweet.entities, tweet.retweet_count, tweet.favorite_count,
+    # tweet.lang, tweet.user] for tweet in alltweets]
+    # print(outtweets)
+
+    for tweet in alltweets:
+        _json = tweet._json
+        c = SentiScoreCalculator(_json)
+        _json['polarity'] = c.get_polarity()
+        _json['subjectivity'] = c.get_subjectivity()
+        upload2couchDB(_json)
 
     # with open('screen_name.csv', 'a') as f:
     #     writer = csv.writer(f)
@@ -66,40 +74,35 @@ def get_all_tweets(screen_name):
     #     "entities", "retweet_count", "favorite_count", "lang", "user"])
     #     writer.writerows(outtweets)
     # pass
-    for tweet in outtweets:
-        data = {}
-        data['id'] = tweet[0]
-        data['created_at'] = str(tweet[1])
-        print(type(tweet[1]))
-        data['place'] = str([tweet[2]])
-        print(type(tweet[2]))
-        data['coordinates'] = str(tweet[3])
-        data['text'] = str(tweet[4])
-        data['entities'] = str(tweet[5])
-        data['retweet_count'] = str(tweet[6])
-        data['favorite_count'] = str(tweet[7])
-        data['lang'] = tweet[8]
-        data['user'] = str(tweet[9])
-        print(type(tweet[9]))
-        print('')
-        # jsonFile = json.dumps(data)
-        # db.save(data)
-    pass
+    # for tweet in outtweets:
+    #     data = {}
+    #     data['id'] = tweet[0]
+    #     data['created_at'] = str(tweet[1])
+    #     print(type(tweet[1]))
+    #     data['place'] = str([tweet[2]])
+    #     print(type(tweet[2]))
+    #     data['coordinates'] = str(tweet[3])
+    #     data['text'] = str(tweet[4])
+    #     data['entities'] = str(tweet[5])
+    #     data['retweet_count'] = str(tweet[6])
+    #     data['favorite_count'] = str(tweet[7])
+    #     data['lang'] = tweet[8]
+    #     data['user'] = str(tweet[9])
+    #     print(type(tweet[9]))
+    #     print('')
+    #     # jsonFile = json.dumps(data)
+    #     # db.save(data)
+    # pass
 
 
 
 if __name__ == '__main__':
     api = load_api()
-    data = []
-    with open('screen_name_samples.json') as f:
+    screen_names = []
+    with open('stream_sample.txt') as f:
         for line in f:
-            data.append(js.loads(line))
-
-    d2 = []
-    for i in range(len(data)):
-        if data[i]["name"] not in d2:
-            d2.append(data[i]["name"])
+            screen_names.append(js.loads(line)['user']['screen_name'])
 	#pass in the username of the account you want to download
-    for j in d2:
-	    get_all_tweets(j)
-        
+    for n in screen_names:
+	    get_all_tweets(n)
+    print('done')
