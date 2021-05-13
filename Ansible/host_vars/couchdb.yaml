@@ -13,6 +13,15 @@ couchdb_port1: 5984
 couchdb_port2: 4369
 couchdb_port3: 9100
 couchdb_port4: 9200
+cluster:
+  - 172.26.128.214
+  - 172.26.129.188
+  - 172.26.128.218
+masternode: '172.26.129.188'
+
+slavenode:
+  - 172.26.128.214
+  - 172.26.128.218
 # export declare -a nodes=(172.17.0.4 172.17.0.3 172.17.0.2)
 # export masternode=`echo ${nodes} | cut -f1 -d' '`
 # export declare -a othernodes=`echo ${nodes[@]} | sed s/${masternode}//`
