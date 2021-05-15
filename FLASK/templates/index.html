@@ -1,0 +1,41 @@
+<head>
+    <title> hello </title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1> hello, click me</h1>
+    <button> click me</button>
+    <script>
+        $('button').click(function(){
+            $.ajax({
+                url:'/ajax',
+                type:'post',
+                data:{'hello':'world'},
+                success:function(d){
+                    $("h1").html('hi, you have clicked!!' + d)
+                },
+                error:function(){
+                    alert('ajax request error')
+                }
+            })
+        })
+    </script>
+	<div id = 'time'> this is the time module</div>
+	<script type="text/javascript">
+		function get_time(){
+			$.ajax({
+				url:'/time',
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+					$('#time').html(data)
+				},
+				error:function(xhr,type,errorThrown){
+					
+				}
+			});
+			
+		}
+		setInterval(get_time,1000)
+	</script>
+</body>
