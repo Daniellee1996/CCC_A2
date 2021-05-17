@@ -65,7 +65,7 @@ def search_query(query, design_doc = 'textsearch', index_name = 'text'):
         .content.decode("utf-8"))
 
 def map_reduce_fuc():
-    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/textsearch/_search/text'
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/filter_city'
     map_func = "function(doc) {{\
             var re = /covid|coronavirus|corona|cov19|corona|virus|cov |isolation|lockdown/;\
             if(re.test(doc.text.toLowerCase()))\
@@ -80,5 +80,7 @@ def map_reduce_fuc():
                       }}
     headers = {"Content-Type": "application/json"}
     r = requests.put(url, data=json.dumps(data), headers=headers)
+    print(r.content)
     for item in db.view('new_doc/my_filter', group_level='2', reduce='true'):
         print(item.key, item.id, item.value)
+
