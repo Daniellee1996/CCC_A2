@@ -30,7 +30,7 @@ DBNAME = 'tiny_sample'
 couch = couchdb.Server(COUCHDB_SERVER)
 db = couch[DBNAME]
 def map_reduce_fuc():
-    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/filter_city'
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/new_doc'
     map_func = "function(doc) {{\
             var re = /covid|coronavirus|corona|cov19|corona|virus|cov |isolation|lockdown/;\
             if(re.test(doc.text.toLowerCase()))\
