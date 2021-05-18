@@ -47,12 +47,19 @@ def map_reduce_fuc():
     r = requests.put(url, data=json.dumps(data), headers=headers)
     print(r.content)
     list_city = {}
-
+    key = []
+    value = []
     for item in db.view('new_doc/my_filter', group_level='2', reduce='true'):
-        print(item.key, item.id, item.value)
-        list_city[item.key[0]] = item.value
+        #print(item.key, item.id, item.value)
+        key.append(item.key[0])
+        value.append(item.value)
 
-    return list_city
+    list_city['city'] = key
+    list_city['value'] = value
+
+    j=json.dumps(list_city)
+    print(j)
+    return j
 
 if __name__ == "__main__":
     app.run(debug=True,port=5000)

@@ -1,52 +1,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Echarts</title>
-    <script src="/static/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/echarts.min.js"></script>
 </head>
-<body>
+
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="main" style="width: 600px;height:400px;"></div>
     <script type="text/javascript">
+        get_view();
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var app = {
+            xday:[],
+            yvalue:[]
+        };
+        $(document).ready(function () {
+            get_view();
+            console.log(app.xday);
+            console.log(app.yvalue)
+        });
         function get_view(){
 			$.ajax({
                 url:'/view_city',
 				timeout:10000,//超时时间设置为10秒；
 				success:function(data){
-                    for (var key in data) {
-                        console.log("key " + key + " has value " + data[key]);
-                    }
+
+				    json_data = JSON.parse(data)
+                    console.info(json_data['city'])
+                    console.info(json_data['value'])
+                    myChart.setOption({
+                        title: {
+                            text: '异步数据加载示例'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['销量']
+                        },
+                        xAxis: {
+                            data: json_data['city']
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '销量',
+                            type: 'bar',
+                            data: json_data['value']
+                        }]
+                    })
+
+
 				},
 				error:function(xhr,type,errorThrown){
 
 				}
 			});
 
-		}
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
+		};
 
-        // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: 'ECharts example'
-            },
-            tooltip: {},
-            legend: {
-                data:['quantity']
-            },
-            xAxis: {
-                data: ["shirts","cardigan","skirts","pants","heels","socks"]
-            },
-            yAxis: {},
-            series: [{
-                name: 'quantity',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        };
 
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
     </script>
+<body>
 </body>
