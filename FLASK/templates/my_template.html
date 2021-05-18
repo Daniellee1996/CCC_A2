@@ -8,6 +8,21 @@
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="main" style="width: 600px;height:400px;"></div>
     <script type="text/javascript">
+        function get_view(){
+			$.ajax({
+                url:'/view_city',
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+                    for (var key in data) {
+                        console.log("key " + key + " has value " + data[key]);
+                    }
+				},
+				error:function(xhr,type,errorThrown){
+
+				}
+			});
+
+		}
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
 

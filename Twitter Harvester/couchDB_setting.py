@@ -81,6 +81,7 @@ def map_reduce_fuc():
     headers = {"Content-Type": "application/json"}
     r = requests.put(url, data=json.dumps(data), headers=headers)
     print(r.content)
+    list_city = {}
     for item in db.view('new_doc/my_filter', group_level='2', reduce='true'):
-        print(item.key, item.id, item.value)
 
+        print(item.key, item.id, item.value)
