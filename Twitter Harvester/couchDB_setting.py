@@ -65,7 +65,7 @@ def search_query(query, design_doc = 'textsearch', index_name = 'text'):
         .content.decode("utf-8"))
 
 def map_reduce_fuc():
-    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/filter_city'
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/city_covid'
     map_func = "function(doc) {{\
             var re = /covid|coronavirus|corona|cov19|corona|virus|cov |isolation|lockdown/;\
             if(re.test(doc.text.toLowerCase()))\
@@ -73,7 +73,7 @@ def map_reduce_fuc():
         }\
     }"
     reduce_func = " function (key, values, rereduce) { return sum(values); }"
-    data = {"views": {"my_filter":
+    data = {"views": {"filter_covid":
                           {"map": map_func,
                            "reduce": reduce_func
                            },
@@ -82,6 +82,40 @@ def map_reduce_fuc():
     r = requests.put(url, data=json.dumps(data), headers=headers)
     print(r.content)
     list_city = {}
-    for item in db.view('new_doc/my_filter', group_level='2', reduce='true'):
+    for item in db.view('city_covid/filter_covid', group_level='2', reduce='true'):
 
         print(item.key, item.id, item.value)
+
+def map_reduce_subjectivity():
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/city_subjectivity'
+    map_func = "function (doc) {emit([doc.place.name],doc.subjectivity)};"
+    reduce_func = " function (key, values, rereduce) { return sum(values); }"
+    data = {"views": {"filter_sub":
+                          {"map": map_func,
+                           "reduce": reduce_func
+                           },
+                      }}
+    headers = {"Content-Type": "application/json"}
+    r = requests.put(url, data=json.dumps(data), headers=headers)
+    print(r.content)
+    list_city = {}
+    for item in db.view('city_subjectivity/filter_sub', group_level='2', reduce='true'):
+        print(item.key, item.id, item.value)
+
+def map_reduce_polarity():
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/city_polarity'
+    map_func = "function (doc) {emit([doc.place.name],doc.polarity)};"
+    reduce_func = " function (key, values, rereduce) { return sum(values); }"
+    data = {"views": {"filter_pol":
+                          {"map": map_func,
+                           "reduce": reduce_func
+                           },
+                      }}
+    headers = {"Content-Type": "application/json"}
+    r = requests.put(url, data=json.dumps(data), headers=headers)
+    print(r.content)
+    list_city = {}
+    for item in db.view('city_polarity/filter_pol', group_level='2', reduce='true'):
+        print(item.key, item.value)
+map_reduce_subjectivity()
+map_reduce_polarity()
