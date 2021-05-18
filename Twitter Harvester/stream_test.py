@@ -137,10 +137,13 @@ def srteam_havest(max_tweets = MAX_TWEETS, track = ["covid"], locations = GEOBOX
             print('exception raised, waiting 16 minutes')
             print(e)
             print('(until:', dt.datetime.now()+dt.timedelta(minutes=16), ')')
+            logging.debug('tweepy exception raised, waiting 16 minutes reset until: %s',
+                          dt.datetime.now() + dt.timedelta(minutes=16))
             time.sleep(16*60)
         except Exception as e:
             print(e)
             time.sleep(60)
+            logging.debug('exception raised, reset until: %s', dt.datetime.now() + dt.timedelta(minutes=1))
             srteam_havest(max_tweets,track,locations)
 
 
