@@ -117,5 +117,21 @@ def map_reduce_polarity():
     list_city = {}
     for item in db.view('city_polarity/filter_pol', group_level='2', reduce='true'):
         print(item.key, item.value)
-map_reduce_subjectivity()
-map_reduce_polarity()
+
+
+def map_reduce_city_num():
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/city_num'
+    map_func = "function (doc) {emit([doc.place.name],1)};"
+    reduce_func = " function (key, values, rereduce) { return sum(values); }"
+    data = {"views": {"city":
+                          {"map": map_func,
+                           "reduce": reduce_func
+                           },
+                      }}
+    headers = {"Content-Type": "application/json"}
+    r = requests.put(url, data=json.dumps(data), headers=headers)
+    print(r.content)
+
+    for item in db.view('city_num/city',group_level='2',reduce='true'):
+        print(item.key, item.value)
+
