@@ -1,39 +1,122 @@
+<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <title>Echarts</title>
+    <title>Twitter Analysis</title>
+    <script src="/static/js/jquery-3.6.0.js"></script>
     <script src="/static/js/echarts.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width: 600px;height:400px;"></div>
-    <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        $(function(){
-            var myChart = echarts.init(document.getElementById('main'));
-            $.ajax({
-                url:'/getdata',
-                success:function(data) {
-                    json_data = JSON.parse(data)
-                    console.info(json_data['language'])
-                    console.info(json_data['value'])
-                    var option = {
-                        title: {
-                            text: "title"
-                        },
-                        tooltip:{},
-                        legend:{
-                            data:["quantity"]
-                        },
-                        xAxis: {},
-                        series:[{
-                            name:"quantity",
-                            type:"bar",
-                            data:json_data['value']
-                        }]
-                    };
-                    myChart.setOption(option);
-                }
-            })
-        }
+    <div class="header">
+        <div class="counter title">
+            <h3>Twitter Analysis</h3>
+            <p>Located in Australia</p>
+        </div>
+
+        <div class="counter_container counter">
+            <p class="counter_title">Total Tweets Analyzed</p>
+            <h3 id="Total">0</h3>
+        </div>
+
+        <div id="Adelaide_count" class="counter">
+            <p class="counter_title">Adelaide</p>
+            <h3 id="Adelaide">0</h3>
+        </div>
+
+        <div id="Melbourne_count" class="counter">
+            <p class="counter_title">Melbourne</p>
+            <h3 id="Melbourne">0</h3>
+        </div>
+
+        <div id="Mornington_count" class="counter">
+            <p class="counter_title">Mornington</p>
+            <h3 id="Mornington">0</h3>
+        </div>
+
+        <div id="Perth_count" class="counter">
+            <p class="counter_title">Perth</p>
+            <h3 id="Perth">0</h3>
+        </div>
+
+        <div id="Sydeny_count" class="counter">
+            <p class="counter_title">Sydney</p>
+            <h3 id="Sydeny">0</h3>
+        </div>
+    
+        <script type = "text/javascript">
+        var Total = document.getElementById("Total")
+        var Adelaide = document.getElementById('Adelaide');
+        var Melbourne = document.getElementById('Melbourne');
+        var Mornington = document.getElementById('Mornington');
+        var Perth = document.getElementById('Perth');
+        var Sydeny = document.getElementById('Sydeny');
+
+        setInterval(function(){
+            $.getJSON('/refresh_tweet_counters', {
+            }, function(data) {
+                Total = parseInt(data.Total);
+                Adelaide = parseInt(data.Adelaide);
+                Melbourne = parseInt(data.Melbourne);
+                Mornington = parseInt(data.Mornington);
+                Perth = parseInt(data.Perth);
+                Sydeny = parseInt(data.Sydeny);
+            });
+
+        },2000);
     </script>
+
+
+    </div>
+    <div id="main" style="width: 600px;height:400px;" class = "charts"></div>
+    <script type="text/javascript">
+        get_view();
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var app = {
+            xday:[],
+            yvalue:[]
+        };
+        $(document).ready(function () {
+            get_view();
+            console.log(app.xday);
+            console.log(app.yvalue)
+        });
+        function get_view(){
+			$.ajax({
+                url:'/view_city',
+				timeout:10000,//
+				success:function(data){
+
+				    json_data = JSON.parse(data)
+                    console.info(json_data['city'])
+                    console.info(json_data['value'])
+                    myChart.setOption({
+                        title: {
+                            text: 'Count by city'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['count']
+                        },
+                        xAxis: {
+                            data: json_data['city']
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: 'count',
+                            type: 'bar',
+                            data: json_data['value']
+                        }]
+                    })
+
+
+				},
+				error:function(xhr,type,errorThrown){
+
+				}
+			});
+
+		};
+    </script>
+    </div>
 </body>
