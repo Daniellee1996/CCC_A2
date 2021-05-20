@@ -6,31 +6,18 @@ import requests
 
 app = Flask(__name__)
 
-xdays = ["shirts", "cardigan", "sneaker", "pants", "highheel", "sock"]
-yvalues = [5, 20, 36, 10, 10, 20]
-json_data = json.dumps({"xdays": xdays, "yvalues": yvalues})
-
-@app.route("/viewdata", methods=["POST"])
-def viewdata():
-    if request.method == "POST":
-        return json_data
-    else:
-        return json_data
-
-@app.route('/view_city', methods = ['GET', 'POST'])
-def get_view():
-    return map_reduce_fuc()
+twitter_count = {"total": 0, "Adelaide": 0, "Melbourne": 0, "Mornington": 0, "Perth": 0, "Sydney": 0}
 
 @app.route('/')
 def hello():
-    return render_template('my_template.html')
+    return render_template('test.html')
     
 COUCHDB_SERVER='http://admin:admin@172.26.128.214:5984/'
 DBNAME = 'tiny_sample'
 couch = couchdb.Server(COUCHDB_SERVER)
 db = couch[DBNAME]
 def map_reduce_fuc():
-    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/new_doc'
+    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/filter_city'
     map_func = "function(doc) {{\
             var re = /covid|coronavirus|corona|cov19|corona|virus|cov |isolation|lockdown/;\
             if(re.test(doc.text.toLowerCase()))\
@@ -60,6 +47,21 @@ def map_reduce_fuc():
     j=json.dumps(list_city)
     print(j)
     return j
+
+@app.route('/view_city', methods = ['GET', 'POST'])
+def get_view():
+    return map_reduce_fuc()
+
+@app.route('/refresh_count')
+def refresh_count():
+	global twitter_count
+	return jsonify(
+		Total = twitter_count["total"],
+		Adelaide = twitter_count["Adelaide"],
+		Melbourne = twitter_count["Melbourne"],
+		Morningtom = twitter_count["Mornington"],
+        Perth = twitter_count["Perth"],
+        Sydney = twitter_count["Sydney"])
 
 if __name__ == "__main__":
     app.run(debug=True,port=5000)
