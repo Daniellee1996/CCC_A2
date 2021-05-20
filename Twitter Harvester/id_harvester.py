@@ -39,7 +39,7 @@ def tweet_write(user_id, outfile = 'cursor_ids.txt'):
         f.write(user_id)
 
 def main():
-    global KEY_INDEX, MAX_ID
+    global KEY_INDEX, MAX_ID, N_IDS
     api = load_api()
     # api.verify_credentials()
     AU_place_id = get_AU_place_id(api)
@@ -48,11 +48,10 @@ def main():
         try:
             new_tweets = tweepy.Cursor(api.search, 
                                         q="place:%s"%AU_place_id, 
-                                        count = 100,
                                         until=datetime.datetime.today().strftime("%Y-%m-%d"),
                                         lang="en", 
                                         tweet_mode="extended", 
-                                        max_id = MAX_ID).items()
+                                        max_id = MAX_ID).items(100)
 
             id_uids = [[tweet.id, tweet.user.id_str] for tweet in new_tweets]
 
@@ -60,7 +59,9 @@ def main():
                 tweet_write(uid)
 
             MAX_ID = id_uids[-1][0] - 1
-
+            N_IDS += len(id_uids)
+            print(N_IDS, 'ids harvested...')
+            
         except tweepy.error.TweepError as e:
             print(e)
             switch_keys()
