@@ -64,7 +64,7 @@ def main():
         new_tweets = api.search(q=q, geocode=geocode)
         maxid = new_tweets[0]._json.get('id')
         latest_max_id.append(maxid)
-    with open('search_sample.json', 'a') as f:    
+    with open('search_sample.txt', 'a') as f:    
         for query, mid in zip(search_list,latest_max_id):
             maxid = mid
             while dt.datetime.now() < end:
