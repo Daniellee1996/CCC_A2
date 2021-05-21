@@ -19,6 +19,7 @@ from sentimental_score_calculator import SentiScoreCalculator
 KEY_INDEX = 0
 ID_INDEX = 0
 N_IDS = 0
+
 #CouchDB authentication
 # COUCHDB_SERVER='http://admin:password@172.26.132.199:5984/'
 # DBNAME = 'test'
@@ -124,7 +125,7 @@ def tweet_write(alltweets, outfile = 'user_timeline_sample.txt'):
 def main():
     global N_IDS, ID_INDEX
     api = load_api()
-    ids = list(pd.read_csv('id_sample.csv', index_col= False)['id'])
+    ids = list(pd.read_csv('id_excl_dups.csv', index_col= False)['id'])
     ids = ids[ID_INDEX:]
     N_IDS = len(ids)
     print('havesting started')
