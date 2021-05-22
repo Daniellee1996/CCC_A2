@@ -24,21 +24,24 @@ class SentiScoreCalculator:
         try:
             blob = TextBlob(text)
             return str(blob.translate(to = 'en'))
-        except textblob.exceptions.NotTranslated:
+        except:
             return text
         
     
     def classify(self, text = None):
         if text == None:
             text = self.text
-        blob = TextBlob(text)
-        pol = blob.sentiment.polarity
-        if pol > 0:
-            return 'positive'
-        elif pol == 0:
+        try:
+            blob = TextBlob(text)
+            pol = blob.sentiment.polarity
+            if pol > 0:
+                return 'positive'
+            elif pol == 0:
+                return 'neutral'
+            else:
+                return 'negative'
+        except:
             return 'neutral'
-        else:
-            return 'negative'
 
     def get_polarity(self, text = None):
         if text == None:
