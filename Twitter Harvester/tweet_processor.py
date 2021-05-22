@@ -26,9 +26,10 @@ class tweet_processor:
         #             return(data['text'])
         #         else:    
         #             return(data['extended_tweet']['full_text'])
-        if data['extended_tweet']['full_text']:
-            return data['extended_tweet']['full_text']
-        if data['text']:
+        if data.get('extended_tweet'):
+            if data['extended_tweet'].get('full_text'):
+                return data['extended_tweet']['full_text']
+        if data.get('text'):
             return data['text']
         return ''
                     
