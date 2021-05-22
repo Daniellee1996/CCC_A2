@@ -57,6 +57,14 @@ def load_api():
     # load the twitter API via tweepy
     return tweepy.API(auth)
 
+def upload2couchDB(row):
+    if type(row) == dict:
+        db.save(row)
+    else:
+        data = json.loads(row)
+        db.save(data)
+
+
 def switch_keys():
     max_index = len(TwitterCredentails) - 1
     global KEY_INDEX
