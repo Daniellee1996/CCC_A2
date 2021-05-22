@@ -15,17 +15,23 @@ class tweet_processor:
         data = self.check_type(json_obj)
         if data.get('full_text'):
             return data['full_text']
+        # if data['text']:
+        #     if data['text'].startswith('RT @'):
+        #         if 'extended_tweet' in data['retweeted_status']:
+        #             return(data['retweeted_status']['extended_tweet']['full_text'])
+        #         else:
+        #             return(data['retweeted_status']['text'])
+        #     else:
+        #         if not 'extended_tweet' in data:
+        #             return(data['text'])
+        #         else:    
+        #             return(data['extended_tweet']['full_text'])
+        if data['extended_tweet']['full_text']:
+            return data['extended_tweet']['full_text']
         if data['text']:
-            if data['text'].startswith('RT @'):
-                if 'extended_tweet' in data['retweeted_status']:
-                    return(data['retweeted_status']['extended_tweet']['full_text'])
-                else:
-                    return(data['retweeted_status']['text'])
-            else:
-                if not 'extended_tweet' in data:
-                    return(data['text'])
-                else:    
-                    return(data['extended_tweet']['full_text'])
+            return data['text']
+        return ''
+                    
     def get_hastags(self, json_obj):
         data = json.loads(json_obj)
         return data['doc']['entities']['hashtags']
