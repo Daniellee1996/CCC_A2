@@ -150,13 +150,22 @@ def main():
         uid = ids[i]
         try:
             tweets = get_tweeet_using_id(uid, api)
-            # tweet_upload(tweets)
-            tweet_write(tweets)
+            tweet_upload(tweets)
+            # tweet_write(tweets)
         except tweepy.TweepError as e:
-            print(e)
-            switch_keys()
-            main()
-
+            if e.api_code == 34: # no id matched
+               continue
+            elif e.api_code == 88: # limit rate
+                ID_INDEX += i
+                switch_keys()
+                main()
+            else:
+                print('found other error')
+                print(e)
+                ID_INDEX += i
+                switch_keys()
+                main()
+                
 
 
 
