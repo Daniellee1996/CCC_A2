@@ -107,7 +107,7 @@ def get_tweeet_using_id(user_id, api):
         print("getting tweets before %s" % (oldest))
     # all subsequent requests use the max_id param to prevent
     # duplicates
-        new_tweets = api.user_timeline(screen_name = user_id, count=200, max_id=oldest)
+        new_tweets = api.user_timeline(user_id = user_id, count=200, max_id=oldest)
     # save most recent tweets
         alltweets.extend(new_tweets)
     # update the id of the oldest tweet less one
@@ -165,7 +165,7 @@ def main():
                 ID_INDEX += i
                 switch_keys()
                 main()
-                
+
 
 
 
