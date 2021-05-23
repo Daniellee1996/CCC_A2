@@ -37,15 +37,27 @@ class tweet_processor:
         data = json.loads(json_obj)
         return data['doc']['entities']['hashtags']
 
+    def get_place(self, json_obj):
+        data = self.check_type(json_obj)
+        return data.get('place')
+
     def get_lang_code(self, json_obj):
         data = self.check_type(json_obj)
         return data['lang']
 
     def get_location(self, json_obj):
-        data = json.loads(json_obj)
-        if data['user']['location']:
+        data = self.check_type(json_obj)
+        if data.get('user').get('location'):
             return data['user']['location']
         return None
+
+    def get_user_id(self, json_obj):
+        data = self.check_type(json_obj)
+        return data['user']['id']
+
+    def get_created_at(self, json_obj):
+        data = self.check_type(json_obj)
+        return data['created_at']
     
     def drop_duplicates(self, file):
         ids = set()

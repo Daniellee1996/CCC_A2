@@ -11,7 +11,9 @@ import pandas as pd
 import couchdb
 import json
 import os
+import datetime
 from pathlib import Path
+from tweet_processor import tweet_processor
 #from config import TwitterCredentails # your keys, format list of dicts
 from couchDB_setting import *
 from sentimental_score_calculator import SentiScoreCalculator
@@ -145,7 +147,28 @@ def tweet_write(alltweets, outfile = 'user_timeline_sample.txt'):
             _json['polarity'] = c.get_polarity()
             _json['subjectivity'] = c.get_subjectivity()
             json.dump(tweet._json, f)
-    
+
+def filter_fields(tweet):
+    # user_id, datetime, text, place, lang_code, polarity, subjectivity
+    user_id = tweet.user.id
+    _datetime = convert_datetime(tweet.created_at)
+    text = tweet_processor.get_full_text(tweet._json)
+    place = tweet_processor.get_place(tweet._json)
+    lang_code = tweet_processor.get_lang_code(tweet._json)
+    c = SentiScoreCalculator(tweet._json)
+    polarity = c.get_polarity()
+    subjectivity = c.get_subjectivity()
+    return {
+        'user_id': user_id,
+        'datetime': _datetime,
+        'text': text,
+        'place': place,
+        'lang_code': lang_code,
+        'polarity': polarity,
+        'subjectivity': subjectivity
+    }
+def convert_datetime(created_at):
+    return datetime.strftime(datetime.strptime(created_at,'%a %b %d %H:%M:%S +0000 %Y'), '%Y-%m-%dT%H:%M:%SZ')
 
 def main():
     global N_IDS, ID_INDEX
