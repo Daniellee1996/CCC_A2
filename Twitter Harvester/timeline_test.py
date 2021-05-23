@@ -150,7 +150,7 @@ def tweet_write(alltweets, outfile = 'user_timeline_sample.txt'):
 def main():
     global N_IDS, ID_INDEX
     api = load_api()
-    ids = list(pd.read_csv('id_excl_dups.csv', index_col= False)['id'])
+    ids = list(pd.read_csv('new_id.csv', index_col= False)['id'])
     ids = ids[ID_INDEX:]
     N_IDS = len(ids)
     print('havesting started')
