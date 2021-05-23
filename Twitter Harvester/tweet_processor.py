@@ -39,8 +39,9 @@ class tweet_processor:
 
     def get_place(self, json_obj):
         data = self.check_type(json_obj)
-        if data.get('place').get('name'):
-            return data.get('place').get('name')
+        if data.get('place'):
+            if data.get('place').get('name'):
+                return data.get('place').get('name')
         return None
 
     def get_lang_code(self, json_obj):
@@ -49,8 +50,9 @@ class tweet_processor:
 
     def get_location(self, json_obj):
         data = self.check_type(json_obj)
-        if data.get('user').get('location'):
-            return data['user']['location']
+        if data.get('user'):
+            if data.get('user').get('location'):
+                return data['user']['location']
         return None
 
     def get_user_id(self, json_obj):
