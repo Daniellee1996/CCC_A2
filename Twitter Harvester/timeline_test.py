@@ -11,7 +11,8 @@ import pandas as pd
 import couchdb
 import json
 import os
-import datetime
+from datetime import datetime
+import pytz
 from pathlib import Path
 from tweet_processor import tweet_processor
 #from config import TwitterCredentails # your keys, format list of dicts
@@ -21,6 +22,8 @@ from sentimental_score_calculator import SentiScoreCalculator
 KEY_INDEX = 0
 ID_INDEX = 0
 N_IDS = 0
+MELB_TZ = pytz.timezone('Australia/Melbourne')
+
 TwitterCredentails = [
     # shuyu li
     {
@@ -37,6 +40,13 @@ TwitterCredentails = [
         'ACCESS_TOKEN': '1289252085033127936-ptoDhOwwYThSPW6qgQuihhV2NI8EWA',
         'ACCESS_TOEKN_SECRET':'0DwAasvL9Ob9VX4iZg681AZCD07bq1N7e7ZehTfqJS0mI',
         'BEARER_TOKEN':'AAAAAAAAAAAAAAAAAAAAAEJaPAEAAAAA37Fvd1A5M8pU7%2FfTFB2kbxRRpzY%3DYjvYAB0XIGQDk8J5oF2GvkNavfwFgyYSdnCasjocDa46HWym3u'
+    },
+    # Aaron
+    {
+        'API_KEY':'PgW9iUmxWD8GS1WFTA5272kxx',
+        'API_SECRET_KEY':'6seNNRYMZyFCm1dCweQOSMwY7aF6hMiI7BulAYz9PIT1Pz2okV',
+        'ACCESS_TOKEN': '1387019892877000709-uhVrfgaDDKPOEQAWap2NWVYH4mKZq5',
+        'ACCESS_TOEKN_SECRET':'bShFNslVBwpvWEokWVivDSlqEE86OaufsDziFPQf5xoZJ'    
     }
 ]
 #CouchDB authentication
@@ -133,11 +143,12 @@ def get_tweeet_using_id(user_id, api):
 
 def tweet_upload(alltweets):
     for tweet in alltweets:
-        _json = tweet._json
-        c = SentiScoreCalculator(_json)
-        _json['polarity'] = c.get_polarity()
-        _json['subjectivity'] = c.get_subjectivity()
-        upload2couchDB(_json)
+        # _json = tweet._json
+        # c = SentiScoreCalculator(_json)
+        # _json['polarity'] = c.get_polarity()
+        # _json['subjectivity'] = c.get_subjectivity()
+        # upload2couchDB(_json)
+        upload2couchDB(filter_fields(tweet))
 
 def tweet_write(alltweets, outfile = 'user_timeline_sample.txt'):
     with open(outfile, 'a') as f:
@@ -148,28 +159,42 @@ def tweet_write(alltweets, outfile = 'user_timeline_sample.txt'):
             _json['subjectivity'] = c.get_subjectivity()
             json.dump(tweet._json, f)
 
+def convert_datetime(created_at):
+    return datetime.strftime(datetime.strptime(created_at,'%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.utc).astimezone(MELB_TZ), '%Y-%m-%dT%H:%M:%SZ')
+
 def filter_fields(tweet):
-    # user_id, datetime, text, place, lang_code, polarity, subjectivity
-    user_id = tweet.user.id
-    _datetime = convert_datetime(tweet.created_at)
-    text = tweet_processor.get_full_text(tweet._json)
-    place = tweet_processor.get_place(tweet._json)
-    lang_code = tweet_processor.get_lang_code(tweet._json)
-    c = SentiScoreCalculator(tweet._json)
-    polarity = c.get_polarity()
-    subjectivity = c.get_subjectivity()
+    p = tweet_processor()
+    if type(tweet) == str: # stream outcome
+        user_id = p.get_user_id(tweet)
+        _datetime = convert_datetime(p.get_created_at(tweet))
+        text = p.get_full_text(tweet)
+        place = p.get_place(tweet)
+        location = p.get_location(tweet)
+        lang_code = p.get_lang_code(tweet)
+        c = SentiScoreCalculator(json.loads(tweet))
+        polarity = c.get_polarity()
+        subjectivity = c.get_subjectivity()        
+    else:
+        user_id = tweet.user.id
+        _datetime = convert_datetime(tweet._json['created_at'])
+        text = p.get_full_text(tweet._json)
+        place = p.get_place(tweet._json)
+        location = p.get_location(tweet._json)
+        lang_code = p.get_lang_code(tweet._json)
+        c = SentiScoreCalculator(tweet._json)
+        polarity = c.get_polarity()
+        subjectivity = c.get_subjectivity()
     return {
         'user_id': user_id,
         'datetime': _datetime,
         'text': text,
         'place': place,
+        'location': location,
         'lang_code': lang_code,
         'polarity': polarity,
         'subjectivity': subjectivity
     }
-def convert_datetime(created_at):
-    return datetime.strftime(datetime.strptime(created_at,'%a %b %d %H:%M:%S +0000 %Y'), '%Y-%m-%dT%H:%M:%SZ')
-
+    
 def main():
     global N_IDS, ID_INDEX
     api = load_api()
