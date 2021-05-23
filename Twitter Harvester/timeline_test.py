@@ -211,16 +211,18 @@ def main():
         except tweepy.TweepError as e:
             if e.api_code == 34: # no id matched
                continue
+            elif e.reason == 'Not authorized.':
+                continue
             elif e.api_code == 88: # limit rate
                 ID_INDEX += i
                 switch_keys()
                 main()
+            
             else:
                 print('found other error')
                 print(e)
-                ID_INDEX += i
-                switch_keys()
-                main()
+                print('error id', uid)
+                continue
 
 
 

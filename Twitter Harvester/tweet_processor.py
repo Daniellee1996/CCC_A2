@@ -39,7 +39,9 @@ class tweet_processor:
 
     def get_place(self, json_obj):
         data = self.check_type(json_obj)
-        return data.get('place')
+        if data.get('place').get('name'):
+            return data.get('place').get('name')
+        return None
 
     def get_lang_code(self, json_obj):
         data = self.check_type(json_obj)
