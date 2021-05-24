@@ -34,26 +34,32 @@ def income():
     income_covid = sc.covid_relate_income()
     city_name = []
     city_covid_income = []
+    city_covid_num = []
     j_dict = {}
     for key, value in income_covid.items():
         city_name.append(key)
-        city_covid_income.append(value)
+        city_covid_num.append(value[0])
+        city_covid_income.append(value[1])
     j_dict['key'] = city_name
-    j_dict['value'] = city_covid_income
+    j_dict['income'] = city_covid_income
+    j_dict['num'] =city_covid_num
     j = json.dumps(j_dict)
     return j
 
-@app.route('/view_city_enconomic')
+@app.route('/view_city_economic')
 def enconomic():
     sc_covid = sc.covid_relate_enconomic()
     city_name = []
     city_covid_enconomic = []
+    city_covid_num = []
     j_dict = {}
     for key, value in sc_covid.items():
         city_name.append(key)
-        city_covid_enconomic.append(value)
+        city_covid_num.append(value[0])
+        city_covid_enconomic.append(value[1])
     j_dict['key'] = city_name
-    j_dict['value'] = city_covid_enconomic
+    j_dict['economic'] = city_covid_enconomic
+    j_dict['num'] = city_covid_num
     j = json.dumps(j_dict)
     return j
 
