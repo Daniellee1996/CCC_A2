@@ -24,16 +24,11 @@ db = couch[DBNAME]
 def simple_page():
     return render_template('simple_page.html')
 
-@app.route('/test')
-def test():
-    return render_template('my_template.html')
+@app.route('/trend')
+def trend():
+    return render_template('trend.html')
 
-
-@app.route('/shortcodes')
-def shortcodes():
-    return render_template('shortcodes.html')
-
-@app.route('/view_city', methods = ['GET', 'POST'])
+@app.route('/view_trend', methods = ['GET', 'POST'])
 def get_view():
     list_covid_time = {}
     for item in db.view('covid_time/filter_covid_time', group_level='2', reduce='true'):
