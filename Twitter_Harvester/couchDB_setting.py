@@ -138,7 +138,7 @@ def reduce_city_num():
     for item in db.view('city_num/city',group_level='2',reduce='true'):
         city_num[item.key[0]] = item.value
         print(item.key, item.value)
-    print(len(city_num))
+    #print(len(city_num))
     return city_num
 
 #客观或者不客观
@@ -154,7 +154,7 @@ def reduce_polarity():
     city_polarity = {}
     for item in db.view('city_polarity/filter_pol', group_level='2', reduce='true'):
         city_polarity[item.key[0]] = item.value
-        print(item.key, item.value)
+        #print(item.key, item.value)
     return city_polarity
 
 def reduce_covid():

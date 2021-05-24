@@ -23,9 +23,16 @@ def index():
 # db = couch[DBNAME]
 
 @app.route('/view_total', methods = ['GET', 'POST'])
-def view_total():   
-    data = [{"name": "Adelaide", "value": 364}, {"name": "Brisbane", "value": 606}, {"name": "Bunbury", "value": 1}, {"name": "Cairns", "value": 1}, {"name": "Central Coast", "value": 1}, {"name": "Cottesloe", "value": 1}, {"name": "Fremantle", "value": 1}, {"name": "Gawler", "value": 2}, {"name": "Gold Coast", "value": 721}, {"name": "Hobart", "value": 1}, {"name": "Kempsey", "value": 1}, {"name": "Melbourne", "value": 1705}, {"name": "Newcastle", "value": 4}, {"name": "Perth", "value": 314}, {"name": "Rockhampton", "value": 2}, {"name": "Sunshine Coast", "value": 62}, {"name": "Sydney", "value": 959}, {"name": "Townsville", "value": 7}, {"name": "Victor Harbor", "value": 107}, {"name": "Wollondilly", "value": 129}, {"name": "Wollongong", "value": 1}]
-    j = {"key": data}
+def view_total():
+    income_covid = sc.covid_relate_income()
+    covid_city_dicts = []
+
+    for key, value in income_covid.items():
+        j_dict = {}
+        j_dict['name'] = key
+        j_dict['value'] = value[0]
+        covid_city_dicts.append(j_dict)
+    j = {"key": covid_city_dicts}
     return json.dumps(j)
 
 @app.route('/total')
