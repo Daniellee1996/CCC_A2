@@ -1,5 +1,5 @@
 from Twitter_Harvester import couchDB_setting
-from Socio_enconomic import lga_city
+from Backend import lga_city
 
 
 
@@ -12,7 +12,7 @@ def covid_relate_enconomic():
     covid_city_index = {}
     for city,value in covid_city_tweet.items():
         city = city.split(",")[0]
-        print(city)
+
         if city in city_enco_index:
             if city not in covid_city_index:
                 covid_city_index[city] = [value,city_enco_index[city]]
@@ -27,15 +27,22 @@ def covid_relate_income():
     covid_city_tweet = couchDB_setting.reduce_covid()
     covid_city_index = {}
     for city, value in covid_city_tweet.items():
-        city = city.split(",")[0]
+        city = city.split(",")
         print(city)
-        if city in city_enco_index:
-            if city not in covid_city_index:
-                covid_city_index[city] = [value, city_enco_index[city]]
-            else:
-                covid_city_index[city][0] += value
+        for c in city:
+
+            if c in city_enco_index:
+                if c not in covid_city_index:
+                    covid_city_index[c] = [value, city_enco_index[c]]
+                else:
+                    covid_city_index[c][0] += value
+
+
     for key, value in covid_city_index.items():
         print(key, value)
     return city_enco_index
 
 
+covid_relate_enconomic()
+print("=========================")
+covid_relate_income()

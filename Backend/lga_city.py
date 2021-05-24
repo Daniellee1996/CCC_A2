@@ -26,7 +26,7 @@ def generate_lga_city():
 
 def city_median(lga_city):
     city_income = {}
-    with open('by Local Government Area.csv', 'r') as f:
+    with open('Median Income.csv', 'r') as f:
         f.readline()
         for line in f:
             line = line.split(',')
@@ -45,6 +45,6 @@ def city_socio_enconomic(lga_city):
     #print(city_enconomic_index)
     return city_enconomic_index
 
-lga_city = generate_lga_city()
-
-city_enconomic_index = city_socio_enconomic(generate_lga_city())
+# lga_city = generate_lga_city()
+#
+# city_enconomic_index = city_socio_enconomic(generate_lga_city())

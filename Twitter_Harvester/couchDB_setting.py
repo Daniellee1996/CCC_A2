@@ -34,8 +34,8 @@ def post_index(payload):
     if type(payload) != dict:
         raise TypeError('data has to be a dict')
     return json.loads(requests.post(
-        url, 
-        data = json.dumps(payload), 
+        url,
+        data = json.dumps(payload),
         headers = headers)
         .content.decode("utf-8"))
 
@@ -48,8 +48,8 @@ def put_text_search(payload = full_text_search_payload, design_doc = 'textsearch
     if type(payload) != dict:
         raise TypeError('data has to be a dict')
     return json.loads(requests.put(
-        url, 
-        data = json.dumps(payload), 
+        url,
+        data = json.dumps(payload),
         headers = headers)
         .content.decode("utf-8"))
 
@@ -59,8 +59,8 @@ def search_query(query, design_doc = 'textsearch', index_name = 'text'):
     if type(query) != dict:
         raise TypeError('data has to be a dict')
     return json.loads(requests.post(
-        url, 
-        data = json.dumps(query), 
+        url,
+        data = json.dumps(query),
         headers = headers)
         .content.decode("utf-8"))
 
@@ -134,24 +134,35 @@ def map_city_num():
 
 
 def reduce_city_num():
+    city_num = {}
     for item in db.view('city_num/city',group_level='2',reduce='true'):
+        city_num[item.key[0]] = item.value
         print(item.key, item.value)
+    print(len(city_num))
+    return city_num
 
-
+#客观或者不客观
 def reduce_subjectivity():
+    city_subjectivity = {}
     for item in db.view('city_subjectivity/filter_sub', group_level='2', reduce='true'):
-        print(item.key, item.id, item.value)
-
-def reduce_polarity():
-    for item in db.view('city_polarity/filter_pol', group_level='2', reduce='true'):
+        city_subjectivity[item.key[0]] = item.value
         print(item.key, item.value)
+    return city_subjectivity
+
+#积极或者不积极
+def reduce_polarity():
+    city_polarity = {}
+    for item in db.view('city_polarity/filter_pol', group_level='2', reduce='true'):
+        city_polarity[item.key[0]] = item.value
+        print(item.key, item.value)
+    return city_polarity
 
 def reduce_covid():
     list_covid_city={}
     for item in db.view('city_covid/filter_covid', group_level='2', reduce='true'):
         list_covid_city[item.key[0]] = item.value
 
-        print(item.key, item.value)
+        #print(item.key, item.value)
     return list_covid_city
 
 def reduce_covid_time():
@@ -161,3 +172,7 @@ def reduce_covid_time():
 
         print(item.key, item.value)
     return list_covid_time
+
+# reduce_subjectivity()
+#AIzaSyA8dLQ86ztG_wG-kBqExUecpTFLomseRlA
+#reduce_city_num()
