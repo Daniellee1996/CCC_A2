@@ -8,7 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/echarts.min.js"></script>
     <title></title>
 
     <!-- Bootstrap core CSS -->
@@ -51,6 +52,59 @@
             
             <!-- Tables -->
             <section class="tables">
+                  <div id="show" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        get_view();
+        var myChart = echarts.init(document.getElementById('show'));
+
+        var app = {
+            xday:[],
+            yvalue:[]
+        };
+        $(document).ready(function () {
+            get_view();
+            console.log(app.xday);
+            console.log(app.yvalue)
+        });
+        function get_view(){
+			$.ajax({
+                url:'/view_city',
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+
+				    json_data = JSON.parse(data)
+                    console.info(json_data['date'])
+                    console.info(json_data['value'])
+                    myChart.setOption({
+                        title: {
+                            text: '异步数据加载示例'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['销量']
+                        },
+                        xAxis: {
+                            data: json_data['date']
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '销量',
+                            type: 'bar',
+                            data: json_data['value']
+                        }]
+                    })
+
+
+				},
+				error:function(xhr,type,errorThrown){
+
+				}
+			});
+
+		};
+
+
+    </script>
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
@@ -404,5 +458,6 @@
     <script src="static/assets/js/transition.js"></script>
     <script src="static/assets/js/owl-carousel.js"></script>
     <script src="static/assets/js/custom.js"></script>
+
 </body>
 </html>
