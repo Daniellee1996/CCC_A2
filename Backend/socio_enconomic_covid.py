@@ -18,9 +18,9 @@ def covid_relate_enconomic():
                 covid_city_index[city] = [value,city_enco_index[city]]
             else:
                 covid_city_index[city][0]+=value
-    for key,value in covid_city_index.items():
-        print(key,value)
-    return city_enco_index
+    # for key,value in covid_city_index.items():
+    #     print(key,value)
+    return covid_city_index
 
 def covid_relate_income():
     city_enco_index = lga_city.city_median(lga_city.generate_lga_city())
@@ -30,7 +30,6 @@ def covid_relate_income():
         city = city.split(",")
         #print(city)
         for c in city:
-
             if c in city_enco_index:
                 if c not in covid_city_index:
                     covid_city_index[c] = [value, city_enco_index[c]]
@@ -38,12 +37,12 @@ def covid_relate_income():
                     covid_city_index[c][0] += value
 
 
-    for key, value in covid_city_index.items():
-        print(key, value)
-    return city_enco_index
+    # for key, value in covid_city_index.items():
+    #     print(key, value)
+    return covid_city_index
 
 
-covid_relate_enconomic()
-print("=========================")
-covid_relate_income()
+# covid_relate_enconomic()
+# print("=========================")
+# covid_relate_income()
 #couchDB_setting.reduce_city_num()

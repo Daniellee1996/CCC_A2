@@ -3,7 +3,7 @@ import json
 import couchdb
 import json
 import requests
-
+from Backend import socio_enconomic_covid as sc
 app = Flask(__name__)
 
 twitter_count = {"total": 0, "Adelaide": 0, "Melbourne": 0, "Mornington": 0, "Perth": 0, "Sydney": 0}
@@ -26,7 +26,7 @@ def simple_page():
 
 @app.route('/shortcodes')
 def shortcodes():
-    return render_template('shortcodes.html')
+    return sc.covid_relate_income()
 
 @app.route('/view_city', methods = ['GET', 'POST'])
 def get_view():

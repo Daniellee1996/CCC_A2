@@ -169,7 +169,7 @@ def reduce_covid_time():
     list_covid_time = {}
     for item in db.view('covid_time/filter_covid_time', group_level='2', reduce='true'):
         date = item.key.split("-")
-        print(date)
+        #print(date)
         time = date[0] + "-"+ date[1]
         if time not in list_covid_time:
             list_covid_time[time] = item.value

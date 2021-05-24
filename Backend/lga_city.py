@@ -4,6 +4,7 @@ csv_file_lga = ['LGA_2011_QLD.csv', 'LGA_2011_OT.csv', 'LGA_2011_NSW.csv', 'LGA_
 def generate_lga_city():
     lga_city={}
     for filename in csv_file_lga:
+        filename = "../Backend/"+filename
         f = open(filename,'r')
         f.readline()
         for line in f:
@@ -26,7 +27,7 @@ def generate_lga_city():
 
 def city_median(lga_city):
     city_income = {}
-    with open('Median Income.csv', 'r') as f:
+    with open('../Backend/Median Income.csv', 'r') as f:
         f.readline()
         for line in f:
             line = line.split(',')
@@ -35,7 +36,7 @@ def city_median(lga_city):
 
 def city_socio_enconomic(lga_city):
     city_enconomic_index = {}
-    with open('by Local Government Area.csv', 'r') as f:
+    with open('../Backend/by Local Government Area.csv', 'r') as f:
         f.readline()
         count = 0
         for line in f:
