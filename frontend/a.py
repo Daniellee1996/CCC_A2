@@ -25,6 +25,31 @@ def homepage():
 def simple_page():
     return render_template('simple_page.html')
 
+@app.route('/view_total', methods = ['GET', 'POST'])
+def view_total():   
+    data = [{"name": "Adelaide", "value": 364}, {"name": "Brisbane", "value": 606}, {"name": "Bunbury", "value": 1}, {"name": "Cairns", "value": 1}, {"name": "Central Coast", "value": 1}, {"name": "Cottesloe", "value": 1}, {"name": "Fremantle", "value": 1}, {"name": "Gawler", "value": 2}, {"name": "Gold Coast", "value": 721}, {"name": "Hobart", "value": 1}, {"name": "Kempsey", "value": 1}, {"name": "Melbourne", "value": 1705}, {"name": "Newcastle", "value": 4}, {"name": "Perth", "value": 314}, {"name": "Rockhampton", "value": 2}, {"name": "Sunshine Coast", "value": 62}, {"name": "Sydney", "value": 959}, {"name": "Townsville", "value": 7}, {"name": "Victor Harbor", "value": 107}, {"name": "Wollondilly", "value": 129}, {"name": "Wollongong", "value": 1}]
+    j = {"key": data}
+    return json.dumps(j)
+
+@app.route('/total')
+def total():
+    return render_template('total.html')
+
+@app.route('/view_trend', methods = ['GET', 'POST'])
+def get_view():
+    list_covid_time = couchDB_setting.reduce_covid_time()
+
+    date = []
+    num_tweet = []
+    j_dict = {}
+    for key,value in list_covid_time.items():
+        date.append(key)
+        num_tweet.append(value)
+    j_dict['key'] = date
+    j_dict['value'] = num_tweet
+    j = json.dumps(j_dict)
+    return j
+
 @app.route('/trend')
 def trend():
     return render_template('trend.html')
@@ -46,6 +71,10 @@ def income():
     j = json.dumps(j_dict)
     return j
 
+@app.route('/income')
+def simple_page():
+    return render_template('income.html')
+
 @app.route('/view_city_economic')
 def enconomic():
     sc_covid = sc.covid_relate_enconomic()
@@ -60,23 +89,6 @@ def enconomic():
     j_dict['key'] = city_name
     j_dict['economic'] = city_covid_enconomic
     j_dict['num'] = city_covid_num
-    j = json.dumps(j_dict)
-    return j
-
-
-
-@app.route('/view_trend', methods = ['GET', 'POST'])
-def get_view():
-    list_covid_time = couchDB_setting.reduce_covid_time()
-
-    date = []
-    num_tweet = []
-    j_dict = {}
-    for key,value in list_covid_time.items():
-        date.append(key)
-        num_tweet.append(value)
-    j_dict['key'] = date
-    j_dict['value'] = num_tweet
     j = json.dumps(j_dict)
     return j
 
