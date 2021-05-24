@@ -29,6 +29,36 @@ def simple_page():
 def trend():
     return render_template('trend.html')
 
+@app.route('/view_income')
+def income():
+    income_covid = sc.covid_relate_income()
+    city_name = []
+    city_covid_income = []
+    j_dict = {}
+    for key, value in income_covid.items():
+        city_name.append(key)
+        city_covid_income.append(value)
+    j_dict['key'] = city_name
+    j_dict['value'] = city_covid_income
+    j = json.dumps(j_dict)
+    return j
+
+@app.route('/view_city_enconomic')
+def enconomic():
+    sc_covid = sc.covid_relate_enconomic()
+    city_name = []
+    city_covid_enconomic = []
+    j_dict = {}
+    for key, value in sc_covid.items():
+        city_name.append(key)
+        city_covid_enconomic.append(value)
+    j_dict['key'] = city_name
+    j_dict['value'] = city_covid_enconomic
+    j = json.dumps(j_dict)
+    return j
+
+
+
 @app.route('/view_trend', methods = ['GET', 'POST'])
 def get_view():
     list_covid_time = couchDB_setting.reduce_covid_time()
