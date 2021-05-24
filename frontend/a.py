@@ -40,7 +40,16 @@ def get_view():
         else:
             list_covid_time[time] += item.value
     # print(list_covid_time)
-    return list_covid_time
+    date = []
+    num_tweet = []
+    j_dict = {}
+    for key,value in list_covid_time.items():
+        date.append(key)
+        num_tweet.append(value)
+    j_dict['key'] = date
+    j_dict['value'] = num_tweet
+    j = json.dumps(j_dict)
+    return j
 
 @app.route('/refresh_count')
 def refresh_count():
