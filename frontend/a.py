@@ -60,11 +60,17 @@ def trend():
 
 @app.route('/view_income')
 def income():
+    sc_covid = sc.covid_relate_enconomic()
     income_covid = sc.covid_relate_income()
     city_name = []
     city_covid_income = []
     city_covid_num = []
+    city_covid_enconomic = []
     j_dict = {}
+    for value in sc_covid.values():
+        city_covid_enconomic.append(value[1])
+
+
     for key, value in income_covid.items():
         city_name.append(key)
         city_covid_num.append(value[0])
@@ -72,6 +78,8 @@ def income():
     j_dict['key'] = city_name
     j_dict['income'] = city_covid_income
     j_dict['num'] =city_covid_num
+    j_dict['economic'] = city_covid_enconomic
+
     j = json.dumps(j_dict)
     return j
 
