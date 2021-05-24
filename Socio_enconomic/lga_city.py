@@ -38,4 +38,4 @@ def city_socio_enconomic(lga_city):
 
 lga_city = generate_lga_city()
 
-city_enconomic_index = city_socio_enconomic(lga_city)
+city_enconomic_index = city_socio_enconomic(generate_lga_city())
