@@ -85,7 +85,10 @@
                         },
                         yAxis: {
                             type: "category",
-                            data: json_data['key']
+                            data: json_data['key'],
+                            axisLabel:{
+                              fontSize: 10
+                            }
                         },
                         series: [{
                             data: json_data['income'],
@@ -125,8 +128,9 @@
            <nav id="menu">
               <ul>
                 <li><a href="index">Homepage</a></li>
-                <li><a href="income">Weekly Income</a></li>
+                <li><a href="total">Twitter Count by City</a></li>
                 <li><a href="trend">Covid-19 Trend</a></li>
+                <li><a href="income">Weekly Income</a></li>
                 <li>
                   <span class="opener">Dropdown One</span>
                   <ul>
