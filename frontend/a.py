@@ -5,6 +5,7 @@ import json
 import requests
 from Backend import socio_enconomic_covid as sc
 app = Flask(__name__)
+from Twitter_Harvester import couchDB_setting
 
 twitter_count = {"total": 0, "Adelaide": 0, "Melbourne": 0, "Mornington": 0, "Perth": 0, "Sydney": 0}
 
@@ -14,10 +15,10 @@ twitter_count = {"total": 0, "Adelaide": 0, "Melbourne": 0, "Mornington": 0, "Pe
 def homepage():
     return render_template('index.html')
     
-COUCHDB_SERVER='http://admin:admin@172.26.128.214:5984/'
-DBNAME = 'twitter'
-couch = couchdb.Server(COUCHDB_SERVER)
-db = couch[DBNAME]
+# COUCHDB_SERVER='http://admin:admin@172.26.128.214:5984/'
+# DBNAME = 'twitter'
+# couch = couchdb.Server(COUCHDB_SERVER)
+# db = couch[DBNAME]
 
 
 @app.route('/simple_page')
@@ -30,16 +31,8 @@ def trend():
 
 @app.route('/view_trend', methods = ['GET', 'POST'])
 def get_view():
-    list_covid_time = {}
-    for item in db.view('covid_time/filter_covid_time', group_level='2', reduce='true'):
-        date = item.key.split("-")
-        #print(date)
-        time = date[0] + "-" + date[1]
-        if time not in list_covid_time:
-            list_covid_time[time] = item.value
-        else:
-            list_covid_time[time] += item.value
-    # print(list_covid_time)
+    list_covid_time = couchDB_setting.reduce_covid_time()
+
     date = []
     num_tweet = []
     j_dict = {}
