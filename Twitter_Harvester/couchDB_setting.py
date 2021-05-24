@@ -160,3 +160,4 @@ def reduce_covid_time():
         list_covid_time[item.key[0]] = item.value
 
         print(item.key, item.value)
+    return list_covid_time
