@@ -72,6 +72,19 @@
 				    json_data = JSON.parse(data)
                     console.info(json_data['key'])
                     console.info(json_data['value'])
+                    var time = {};
+                    mouths = json_data['key'];
+                    value_mouth = json_data['value'];
+                    var x;
+                    for (x in mouths) {
+                      year = mouths[x].split("-")[0]
+                      if ( year in time){
+                        time[year] += value_mouth[x]
+                      }else{
+                        time[year] = value_mouth[x]
+                      }
+                    }
+                    console.info(time);
                     myChart.setOption({
                         title: {
                             text: 'the trend of twitter about COVID-19'
