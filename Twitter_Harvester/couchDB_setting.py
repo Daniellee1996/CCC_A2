@@ -168,9 +168,14 @@ def reduce_covid():
 def reduce_covid_time():
     list_covid_time = {}
     for item in db.view('covid_time/filter_covid_time', group_level='2', reduce='true'):
-        list_covid_time[item.key[0]] = item.value
-
-        print(item.key, item.value)
+        date = item.key.split("-")
+        print(date)
+        time = date[0] + "-"+ date[1]
+        if time not in list_covid_time:
+            list_covid_time[time] = item.value
+        else:
+            list_covid_time[time] += item.value
+    # print(list_covid_time)
     return list_covid_time
 
 # reduce_subjectivity()
