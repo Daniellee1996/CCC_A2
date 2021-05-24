@@ -176,3 +176,4 @@ def reduce_covid_time():
 # reduce_subjectivity()
 #AIzaSyA8dLQ86ztG_wG-kBqExUecpTFLomseRlA
 #reduce_city_num()
+reduce_covid_time()

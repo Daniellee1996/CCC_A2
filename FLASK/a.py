@@ -3,7 +3,8 @@ import json
 import couchdb
 import json
 import requests
-
+from Backend import socio_enconomic_covid
+from Twitter_Harvester import couchDB_setting
 app = Flask(__name__)
 
 twitter_count = {"total": 0, "Adelaide": 0, "Melbourne": 0, "Mornington": 0, "Perth": 0, "Sydney": 0}
@@ -12,45 +13,11 @@ twitter_count = {"total": 0, "Adelaide": 0, "Melbourne": 0, "Mornington": 0, "Pe
 def hello():
     return render_template('test.html')
     
-COUCHDB_SERVER='http://admin:admin@172.26.128.214:5984/'
-DBNAME = 'tiny_sample'
-couch = couchdb.Server(COUCHDB_SERVER)
-db = couch[DBNAME]
-def map_reduce_fuc():
-    url = 'http://admin:admin@172.26.128.214:5984/' + DBNAME + '/_design/filter_city'
-    map_func = "function(doc) {{\
-            var re = /covid|coronavirus|corona|cov19|corona|virus|cov |isolation|lockdown/;\
-            if(re.test(doc.text.toLowerCase()))\
-            emit([doc.place.name],1);\
-        }\
-    }"
-    reduce_func = " function (key, values, rereduce) { return sum(values); }"
-    data = {"views": {"my_filter":
-                          {"map": map_func,
-                           "reduce": reduce_func
-                           },
-                      }}
-    headers = {"Content-Type": "application/json"}
-    r = requests.put(url, data=json.dumps(data), headers=headers)
-    print(r.content)
-    list_city = {}
-    key = []
-    value = []
-    for item in db.view('new_doc/my_filter', group_level='2', reduce='true'):
-        #print(item.key, item.id, item.value)
-        key.append(item.key[0])
-        value.append(item.value)
-
-    list_city['city'] = key
-    list_city['value'] = value
-
-    j=json.dumps(list_city)
-    print(j)
-    return j
 
 @app.route('/view_city', methods = ['GET', 'POST'])
 def get_view():
-    return map_reduce_fuc()
+    return couchDB_setting.reduce_covid_time()
+    #return socio_enconomic_covid.covid_relate_income()
 
 @app.route('/refresh_count')
 def refresh_count():

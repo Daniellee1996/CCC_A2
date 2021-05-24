@@ -28,7 +28,7 @@ def covid_relate_income():
     covid_city_index = {}
     for city, value in covid_city_tweet.items():
         city = city.split(",")
-        print(city)
+        #print(city)
         for c in city:
 
             if c in city_enco_index:
@@ -46,3 +46,4 @@ def covid_relate_income():
 covid_relate_enconomic()
 print("=========================")
 covid_relate_income()
+#couchDB_setting.reduce_city_num()
