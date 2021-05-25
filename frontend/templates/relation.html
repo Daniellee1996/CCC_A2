@@ -69,7 +69,7 @@
         function lineChart(){
 			$.ajax({
                 url:'/view_relation',
-				timeout:10000,
+				timeout:100000,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.info(json_data['income'])

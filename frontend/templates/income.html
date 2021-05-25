@@ -71,7 +71,7 @@
         function barChart(){
 			$.ajax({
                 url:'/view_income',
-				timeout:100,
+				timeout:100000,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.log(json_data['key'])

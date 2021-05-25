@@ -4,7 +4,7 @@ import requests
 
 
 COUCHDB_SERVER='http://admin:admin@172.26.128.214:5984/'
-DBNAME = 'twitter'
+DBNAME = 'twitter_replicate'
 couch = couchdb.Server(COUCHDB_SERVER)
 db = couch[DBNAME]
 

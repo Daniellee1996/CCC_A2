@@ -68,7 +68,7 @@ def get_view():
 def trend():
     return render_template('trend.html')
 
-@app.route('/view_income')
+@app.route('/view_income',methods = ['GET', 'POST'])
 def income():
     start = time.time()
     sc_covid = sc.covid_relate_enconomic()
@@ -95,7 +95,7 @@ def income():
     print("income", time.time() - start)
     return j
 
-@app.route('/income')
+@app.route('/income',methods = ['GET', 'POST'])
 def income_page():
     return render_template('income.html')
 
@@ -142,7 +142,7 @@ def view_relation():
     print("relation", time.time() - start)
     return j
 
-@app.route('/relation')
+@app.route('/relation', methods = ['GET', 'POST'])
 def relation():
     return render_template('relation.html')
 
