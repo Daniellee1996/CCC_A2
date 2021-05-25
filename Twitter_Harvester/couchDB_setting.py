@@ -137,7 +137,7 @@ def reduce_city_num():
     city_num = {}
     for item in db.view('city_num/city',group_level='2',reduce='true'):
         city_num[item.key[0]] = item.value
-        print(item.key, item.value)
+        #print(item.key, item.value)
     #print(len(city_num))
     return city_num
 
@@ -178,7 +178,7 @@ def reduce_covid_time():
     # print(list_covid_time)
     return list_covid_time
 
-# reduce_subjectivity()
+#reduce_subjectivity()
 #AIzaSyA8dLQ86ztG_wG-kBqExUecpTFLomseRlA
 #reduce_city_num()
 # reduce_covid_time()

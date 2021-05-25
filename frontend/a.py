@@ -69,6 +69,7 @@ def trend():
 def income():
     sc_covid = sc.covid_relate_enconomic()
     income_covid = sc.covid_relate_income()
+    print("get_income")
     city_name = []
     city_covid_income = []
     city_covid_num = []
@@ -88,6 +89,7 @@ def income():
     j_dict['economic'] = city_covid_enconomic
 
     j = json.dumps(j_dict)
+    print("get_income11")
     return j
 
 @app.route('/income')
@@ -108,6 +110,12 @@ def get_polarity():
     j = json.dumps(j_dict)
 
     return j
+
+@app.route('/subjectivity_polarity')
+def get_subjectivityAndPolarity():
+    return ps.get_sub_pol()
+
+
 
 @app.route('/subjectivity')
 def get_subjectivity():
@@ -141,10 +149,10 @@ def covid_city():
 def view_relation():
     ec_covid = sc.covid_relate_enconomic()
     income_covid = sc.covid_relate_income()
-    city_name = []
+    print("get_relation")
     city_covid_enconomic = []
     city_covid_income = []
-    city_covid_num = []
+
     j_dict = {}
     for key,value in ec_covid.items():
 
@@ -156,6 +164,7 @@ def view_relation():
     j_dict['income'] = sorted(city_covid_income)
     j_dict['economic'] = sorted(city_covid_enconomic)
     j = json.dumps(j_dict)
+    print("get_relation11")
     return j
 
 
