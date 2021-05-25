@@ -51,7 +51,7 @@
             </div>
             <!-- Tables -->
             <section class="tables">
-                  <div id="show" style="width: 600px;height:400px;"></div>
+                  <div id="show" style="width: 800px;height:500px;"></div>
     <script type="text/javascript">
         get_view();
         var myChart = echarts.init(document.getElementById('show'));
@@ -80,45 +80,32 @@
                             text: 'the comparision of subjectivity and polarity'
                         },
                         tooltip: {
-                          trigger: 'axix',
-                          axisPointer:{
-                            type: 'shadow'
-                          }
                         },
                         legend: {
                             data:['subjectivity', 'polarity'],
                             top: 30
                         },
-
-                        xAxis: [{
-                            type: "value"
-                        }],
-                        yAxis: [{
+                        grid: {
+                          containLable: true
+                        },
+                        yAxis: {
                           type: "category",
-                          data: data["key"]
+                          data: json_data['key'],
+                          axisLabel:{
+                            fontSize: 10
+                          }
+                        },
+                        xAxis: [{
+                          type: "value",
                         }],
                         series: [{
                             name: "subjectivity",
                             type: "bar",
-                            label: {
-                                show: true,
-                                position: "inside"
-                            },
-                            emphasis:{
-                                focus: "series"
-                            },
                             data: json_data['subjectivity']
                         },
                         {
                             name: "polarity",
                             type: "bar",
-                            label: {
-                                show: true,
-                                position: "inside"
-                            },
-                            emphasis:{
-                                focus: "series"
-                            },
                             data: json_data['polarity']
                         }]
                     })
@@ -161,13 +148,7 @@
                     <li><a href="relation">Relation Between Income and Economics</a></li>
                   </ul>
                 </li>
-                <li>
-                  <span class="opener">Subject and Polarity</span>
-                  <ul>
-                    <li><a href="stat">Subject</a></li>
-                    <li><a href="stat">Polarity</a></li>
-                  </ul>
-                </li>
+                <li><a href="stat">Subjectivity and Polarity</a></li>
                 <li><a href="https://www.google.com">External Link</a></li>
               </ul>
             </nav>
