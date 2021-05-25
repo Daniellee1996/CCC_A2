@@ -74,9 +74,9 @@
 				timeout:10000,
 				success:function(data){
 				    json_data = JSON.parse(data)
-                    console.info(json_data['key'])
-                    console.info(json_data['economic'])
-                    console.info(json_data['income'])
+                    console.log(json_data['key'])
+                    console.log(json_data['economic'])
+                    console.log(json_data['income'])
                     barchart.setOption({
                         title: {
                             text: 'the weekly salary of twitter about COVID-19'

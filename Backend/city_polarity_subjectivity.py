@@ -127,7 +127,7 @@ def get_sub_pol():
     j_dict['key'] = city_names
     j_dict['subjectivity'] = subjectivity
     j_dict['polarity'] = polarity
-
+    print(j_dict)
     return json.dumps(j_dict)
 
 

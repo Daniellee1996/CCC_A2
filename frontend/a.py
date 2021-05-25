@@ -5,6 +5,7 @@ import json
 import requests
 import sys
 import os
+import time
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
 sys.path.append(BASE_DIR)
@@ -48,6 +49,7 @@ def total():
 
 @app.route('/view_trend', methods = ['GET', 'POST'])
 def get_view():
+    start = time.time()
     list_covid_time = couchDB_setting.reduce_covid_time()
 
     date = []
@@ -59,6 +61,7 @@ def get_view():
     j_dict['key'] = date
     j_dict['value'] = num_tweet
     j = json.dumps(j_dict)
+    print("trend",time.time()-start)
     return j
 
 @app.route('/trend')
@@ -67,6 +70,7 @@ def trend():
 
 @app.route('/view_income')
 def income():
+    start = time.time()
     sc_covid = sc.covid_relate_enconomic()
     income_covid = sc.covid_relate_income()
     print("get_income")
@@ -77,8 +81,6 @@ def income():
     j_dict = {}
     for value in sc_covid.values():
         city_covid_enconomic.append(value[1])
-
-
     for key, value in income_covid.items():
         city_name.append(key)
         city_covid_num.append(value[0])
@@ -90,47 +92,19 @@ def income():
 
     j = json.dumps(j_dict)
     print("get_income11")
+    print("income", time.time() - start)
     return j
 
 @app.route('/income')
 def income_page():
     return render_template('income.html')
 
-@app.route('/polarity')
-def get_polarity():
-    polarity = ps.get_city_polarity()
-    city_name = []
-    city_polarity = []
-    j_dict = {}
-    for c,p in polarity.items():
-        city_name.append(c)
-        city_polarity.append(p)
-    j_dict['city'] = city_name
-    j_dict['polarity'] = city_polarity
-    j = json.dumps(j_dict)
 
-    return j
 
 @app.route('/subjectivity_polarity')
 def get_subjectivityAndPolarity():
     return ps.get_sub_pol()
 
-
-
-@app.route('/subjectivity')
-def get_subjectivity():
-    polarity = ps.get_city_subjectivity()
-    city_name = []
-    city_sub = []
-    j_dict = {}
-    for c,s in polarity.items():
-        city_name.append(c)
-        city_sub.append(s)
-    j_dict['city'] = city_name
-    j_dict['subjectivity'] = city_sub
-    j = json.dumps(j_dict)
-
-    return j
 
 @app.route('/view_covid_city')
 def covid_city():
@@ -147,6 +121,7 @@ def covid_city():
 
 @app.route('/view_relation', methods = ['GET', 'POST'])
 def view_relation():
+    start = time.time()
     ec_covid = sc.covid_relate_enconomic()
     income_covid = sc.covid_relate_income()
     print("get_relation")
@@ -164,7 +139,7 @@ def view_relation():
     j_dict['income'] = sorted(city_covid_income)
     j_dict['economic'] = sorted(city_covid_enconomic)
     j = json.dumps(j_dict)
-    print("get_relation11")
+    print("relation", time.time() - start)
     return j
 
 @app.route('/relation')
@@ -173,9 +148,12 @@ def relation():
 
 @app.route('/view_stat', methods = ['GET', 'POST'])
 def view_stat():   
-    c = {"key": ["a", "b"], "subjectivity": [2, 3], "polarity": [3, -1]}
-    j = json.dumps(c)
-    return j
+    # c = {"key": ["a", "b"], "subjectivity": [2, 3], "polarity": [3, -1]}
+    # j = json.dumps(c)
+    start = time.time()
+    r = ps.get_sub_pol()
+    print("polarity and subjectivity",time.time()-start)
+    return r
 
 @app.route('/stat')
 def stat():
