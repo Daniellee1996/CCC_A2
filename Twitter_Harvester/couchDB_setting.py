@@ -146,7 +146,7 @@ def reduce_subjectivity():
     city_subjectivity = {}
     for item in db.view('city_subjectivity/filter_sub', group_level='2', reduce='true'):
         city_subjectivity[item.key[0]] = item.value
-        print(item.key, item.value)
+        #print(item.key, item.value)
     return city_subjectivity
 
 #积极或者不积极
@@ -181,4 +181,4 @@ def reduce_covid_time():
 # reduce_subjectivity()
 #AIzaSyA8dLQ86ztG_wG-kBqExUecpTFLomseRlA
 #reduce_city_num()
-reduce_covid_time()
+# reduce_covid_time()
