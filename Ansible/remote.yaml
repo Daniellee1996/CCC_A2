@@ -1,12 +1,12 @@
 ---
-# - hosts: localhost
+ - hosts: localhost
   
-#   vars_files:
-#     - host_vars/instance.yaml
-#   gather_facts: true
+   vars_files:
+     - host_vars/instance.yaml
+   gather_facts: true
 
-#   roles:
-#     - role: add-privateKey
+   roles:
+     - role: add-privateKey
 
 - hosts: instances
   vars_files:
@@ -15,10 +15,10 @@
   gather_facts: true
 
   roles:
-      # - role: openstack-enviroment
-      # - role: install-docker
-      #  - role: install-package
-      # - role: docker-enviroment
+       - role: openstack-enviroment
+       - role: install-docker
+       - role: install-package
+       - role: docker-enviroment
       
 
 - hosts: cluster
@@ -29,5 +29,5 @@
   gather_facts: true
 
   roles:
-    #- role: couchDB_setup
+    - role: couchDB_setup
     - role: couchDB_cluster
