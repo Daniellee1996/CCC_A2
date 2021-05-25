@@ -45,8 +45,8 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
-                    <h1>Weekly Income displayed by cities</h1>
-                    <p><strong>Weekly Income</strong> of each cities</p>
+                    <h1>Weekly Income and Economic Index displayed by cities</h1>
+                    <p>The bar chart shows both Weekly income and economic index of each city</p>
                   </div>
                 </div>
               </div>
@@ -71,12 +71,12 @@
         function barChart(){
 			$.ajax({
                 url:'/view_income',
-				timeout:100000,
+				timeout:100,
 				success:function(data){
 				    json_data = JSON.parse(data)
-                    console.log(json_data['key'])
-                    console.log(json_data['economic'])
-                    console.log(json_data['income'])
+                    console.info(json_data['key'])
+                    console.info(json_data['economic'])
+                    console.info(json_data['income'])
                     barchart.setOption({
                         title: {
                             text: 'the weekly salary of twitter about COVID-19'
@@ -151,8 +151,8 @@
                 <li>
                   <span class="opener">Weekly Income and Economic Index</span>
                   <ul>
-                    <li><a href="income">Weekly Income</a></li>
-                    <li><a href="relation">Relation Between Income and Economics</a></li>
+                    <li><a href="income">Summary Statistics</a></li>
+                    <li><a href="relation">Relation with tweet counts</a></li>
                   </ul>
                 </li>
                 <li><a href="stat">Subjectivity and Polarity</a></li>

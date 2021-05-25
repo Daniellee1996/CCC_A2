@@ -45,8 +45,8 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
-                    <h1>Weekly Income displayed by cities</h1>
-                    <p><strong>Weekly Income</strong> of each cities</p>
+                    <h1>Weekly Income Versus Economics Index</h1>
+                    <p>This line charts illustrates the relation of tweet counts between weekly income and Economics index respectively</p>
                   </div>
                 </div>
               </div>
@@ -69,7 +69,7 @@
         function lineChart(){
 			$.ajax({
                 url:'/view_relation',
-				timeout:100000,
+				timeout:10000,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.info(json_data['income'])
@@ -127,8 +127,8 @@
                 <li>
                   <span class="opener">Weekly Income and Economic Index</span>
                   <ul>
-                    <li><a href="income">Weekly Income</a></li>
-                    <li><a href="relation">Relation Between Income and Economics</a></li>
+                    <li><a href="income">Summary Statistics</a></li>
+                    <li><a href="relation">Relation with tweet counts</a></li>
                   </ul>
                 </li>
                 <li><a href="stat">Subjectivity and Polarity</a></li>
