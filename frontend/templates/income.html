@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-      <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/jquery/jquery.min.js"></script>
     <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -71,7 +71,7 @@
         function barChart(){
 			$.ajax({
                 url:'/view_income',
-				timeout:10000,
+				timeout:100,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.info(json_data['key'])
