@@ -69,7 +69,7 @@
         function get_view(){
 			$.ajax({
                 url:'/view_stat',
-				timeout:10000,
+				timeout:200000,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.info(json_data['key'])
