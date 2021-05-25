@@ -12,11 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/echarts.min.js"></script>
-    <script src="static/assets/js/browser.min.js"></script>
-    <script src="static/assets/js/breakpoints.min.js"></script>
-    <script src="static/assets/js/transition.js"></script>
-    <script src="static/assets/js/owl-carousel.js"></script>
-    <script src="static/assets/js/custom.js"></script>
     <title></title>
 
     <!-- Bootstrap core CSS -->
@@ -60,7 +55,7 @@
             <section class="tables">
                   <div id="barchart" style="width: 800px;height:600px;"></div>
     <script type="text/javascript">
-
+        barChart();
         var barchart = echarts.init(document.getElementById('barchart'));
         var data = {
             key:[],
@@ -68,15 +63,15 @@
             economic:[],
         };
         $(document).ready(function () {
-            set_barChart();
+            barChart();
             console.log(data.key);
             console.log(data.income);
             console.log(data.economic);
         });
-        function set_barChart(){
+        function barChart(){
 			$.ajax({
                 url:'/view_income',
-				timeout:100000,
+				timeout:10000,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.info(json_data['key'])
@@ -127,7 +122,7 @@
     </script>
     <div id="linechart" style="width: 800px;height:400px;"></div>
     <script type="text/javascript">
-
+        lineChart();
         var linechart = echarts.init(document.getElementById('linechart'));
         var data = {
             income:[],
@@ -196,21 +191,18 @@
                 <li><a href="index">Homepage</a></li>
                 <li><a href="total">Twitter Count by City</a></li>
                 <li><a href="trend">Covid-19 Trend</a></li>
-                <li><a href="income">Weekly Income</a></li>
                 <li>
-                  <span class="opener">Dropdown One</span>
+                  <span class="opener">Weekly Income and Economic Index</span>
                   <ul>
-                    <li><a href="#">First Sub Menu</a></li>
-                    <li><a href="#">Second Sub Menu</a></li>
-                    <li><a href="#">Third Sub Menu</a></li>
+                    <li><a href="income">Weekly Income</a></li>
+                    <li><a href="income">Relation Between Income and Economics</a></li>
                   </ul>
                 </li>
                 <li>
-                  <span class="opener">Dropdown Two</span>
+                  <span class="opener">Subject and Polarity</span>
                   <ul>
-                    <li><a href="#">Sub Menu #1</a></li>
-                    <li><a href="#">Sub Menu #2</a></li>
-                    <li><a href="#">Sub Menu #3</a></li>
+                    <li><a href="#">Subject</a></li>
+                    <li><a href="#">Polarity</a></li>
                   </ul>
                 </li>
                 <li><a href="https://www.google.com">External Link</a></li>
@@ -228,7 +220,11 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-
+    <script src="static/assets/js/browser.min.js"></script>
+    <script src="static/assets/js/breakpoints.min.js"></script>
+    <script src="static/assets/js/transition.js"></script>
+    <script src="static/assets/js/owl-carousel.js"></script>
+    <script src="static/assets/js/custom.js"></script>
 
 </body>
 </html>
