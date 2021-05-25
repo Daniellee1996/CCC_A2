@@ -55,7 +55,7 @@
             <section class="tables">
                   <div id="barchart" style="width: 800px;height:600px;"></div>
     <script type="text/javascript">
-
+        barChart();
         var barchart = echarts.init(document.getElementById('barchart'));
         var data = {
             key:[],
@@ -64,7 +64,9 @@
         };
         $(document).ready(function () {
             barChart();
-
+            console.log(data.key);
+            console.log(data.income);
+            console.log(data.economic);
         });
         function barChart(){
 			$.ajax({
@@ -72,9 +74,9 @@
 				timeout:10000,
 				success:function(data){
 				    json_data = JSON.parse(data)
-                    console.log(json_data['key'])
-                    console.log(json_data['economic'])
-                    console.log(json_data['income'])
+                    console.info(json_data['key'])
+                    console.info(json_data['economic'])
+                    console.info(json_data['income'])
                     barchart.setOption({
                         title: {
                             text: 'the weekly salary of twitter about COVID-19'
@@ -118,48 +120,6 @@
 			});
 		};
     </script>
-    <div id="linechart" style="width: 800px;height:400px;"></div>
-    <script type="text/javascript">
-
-        var linechart = echarts.init(document.getElementById('linechart'));
-        var data = {
-            income:[],
-            economic:[],
-        };
-        $(document).ready(function () {
-            lineChart();
-
-        });
-        function lineChart(){
-			$.ajax({
-                url:'/view_relation',
-				timeout:10000,
-				success:function(data){
-				    json_data = JSON.parse(data)
-                    console.log(json_data['income'])
-                    console.log(json_data['economic'])
-                    linechart.setOption({
-                        title: {
-                            text: 'the relation between economic and income'
-                        },
-                        tooltip: {},
-                        xAxis: {},
-                        yAxis: {},
-                        series: [{
-                          data: json_data['income'],
-                          type: "line"
-                        },
-                        {
-                          data: json_data['economic'],
-                          type: "line"
-                        }]
-                    })
-				},
-				error:function(xhr,type,errorThrown){
-				}
-			});
-		};
-    </script>
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
@@ -178,7 +138,7 @@
             <!-- Search Box -->
             <section id="search" class="alt">
               <form method="get" action="#">
-                <input type="text" name="search" id="search_id" placeholder="Search..." />
+                <input type="text" name="search" id="search" placeholder="Search..." />
               </form>
             </section>
               
@@ -192,14 +152,14 @@
                   <span class="opener">Weekly Income and Economic Index</span>
                   <ul>
                     <li><a href="income">Weekly Income</a></li>
-                    <li><a href="income">Relation Between Income and Economics</a></li>
+                    <li><a href="relation">Relation Between Income and Economics</a></li>
                   </ul>
                 </li>
                 <li>
                   <span class="opener">Subject and Polarity</span>
                   <ul>
-                    <li><a href="#">Subject</a></li>
-                    <li><a href="#">Polarity</a></li>
+                    <li><a href="stat">Subject</a></li>
+                    <li><a href="stat">Polarity</a></li>
                   </ul>
                 </li>
                 <li><a href="https://www.google.com">External Link</a></li>
