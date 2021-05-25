@@ -84,6 +84,12 @@
                         time[year] = value_mouth[x]
                       }
                     }
+                    var year_19 = document.getElementById("2019");
+                    var year_20 = document.getElementById("2020");
+                    var year_21 = document.getElementById("2021");
+                    year_19.innerHTML = time['2019']
+                    year_20.innerHTML = time['2020']
+                    year_21.innerHTML = time['2021']
                     console.info(time);
                     myChart.setOption({
                         title: {
@@ -129,15 +135,15 @@
                         <tbody>
                           <tr>
                             <td>2019</td>
-                            <td>$20.50</td>
+                            <td id="2019" ">$20.50</td>
                           </tr>
                           <tr>
                             <td>2020</td>
-                            <td>$20.50</td>
+                            <td id="2020">$20.50</td>
                           </tr>
                           <tr>
                             <td>2021</td>
-                            <td>$20.50</td>
+                            <td id="2021">$20.50</td>
                           </tr>
                         </tbody>
                       </table>

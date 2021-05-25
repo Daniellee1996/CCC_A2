@@ -148,16 +148,6 @@ def enconomic():
     return j
 
 
-@app.route('/refresh_count')
-def refresh_count():
-	global twitter_count
-	return jsonify(
-		total = twitter_count["total"],
-		Adelaide = twitter_count["Adelaide"],
-		Melbourne = twitter_count["Melbourne"],
-		Morningtom = twitter_count["Mornington"],
-        Perth = twitter_count["Perth"],
-        Sydney = twitter_count["Sydney"])
 
 if __name__ == "__main__":
     app.run(debug=True,port=5000)
