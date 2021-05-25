@@ -5,7 +5,7 @@ import json
 import requests
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../Backend'))
+sys.path.append('../Backend')
 from Backend import socio_enconomic_covid as sc
 from Backend import city_polarity_subjectivity as ps
 from Twitter_Harvester import couchDB_setting
