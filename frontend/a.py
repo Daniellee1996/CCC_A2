@@ -130,8 +130,8 @@ def covid_city():
     j = json.dumps(covid_city_dicts)
     return j
 
-@app.route('/view_ec_income')
-def enconomic():
+@app.route('/view_relation', methods = ['GET', 'POST'])
+def view_relation():
     ec_covid = sc.covid_relate_enconomic()
     income_covid = sc.covid_relate_income()
     city_name = []
@@ -146,8 +146,8 @@ def enconomic():
     for key,value in income_covid.items():
         city_covid_income.append([value[0],value[1]])
 
-    j_dict['income'] = city_covid_income
-    j_dict['economic'] = city_covid_enconomic
+    j_dict['income'] = sorted(city_covid_income)
+    j_dict['economic'] = sorted(city_covid_enconomic)
     j = json.dumps(j_dict)
     return j
 
