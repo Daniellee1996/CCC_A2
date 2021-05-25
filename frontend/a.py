@@ -5,6 +5,10 @@ import json
 import requests
 import sys
 import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+sys.path.append(BASE_DIR)
+print(BASE_DIR)
 sys.path.append('../Backend')
 from Backend import socio_enconomic_covid as sc
 from Backend import city_polarity_subjectivity as ps
