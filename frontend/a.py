@@ -158,6 +158,20 @@ def view_relation():
     j = json.dumps(j_dict)
     return j
 
+@app.route('/relation')
+def relation():
+    return render_template('relation.html')
+
+@app.route('/view_stat', methods = ['GET', 'POST'])
+def view_stat():   
+    c = {"key": ["a", "b"], "subjectivity": [2, 3], "polarity": [3, -1]}
+    j = json.dumps(c)
+    return j
+
+@app.route('/stat')
+def stat():
+    return render_template('stat.html')
+
 
 
 if __name__ == "__main__":
