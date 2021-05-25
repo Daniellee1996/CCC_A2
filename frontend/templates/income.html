@@ -55,7 +55,7 @@
             <section class="tables">
                   <div id="barchart" style="width: 800px;height:600px;"></div>
     <script type="text/javascript">
-        barChart();
+
         var barchart = echarts.init(document.getElementById('barchart'));
         var data = {
             key:[],
@@ -63,12 +63,12 @@
             economic:[],
         };
         $(document).ready(function () {
-            barChart();
+            set_barChart();
             console.log(data.key);
             console.log(data.income);
             console.log(data.economic);
         });
-        function barChart(){
+        function set_barChart(){
 			$.ajax({
                 url:'/view_income',
 				timeout:10000,
