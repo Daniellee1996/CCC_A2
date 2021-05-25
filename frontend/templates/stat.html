@@ -43,8 +43,8 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
-                    <h1>Total count of twitter about Covid-19 by cities</h1>
-                    <p><strong>Twitter about Covid-19</strong> is counted by cities. </p>
+                    <h1>Twitter about Covid-19 Timeline Trend</h1>
+                    <p><strong>Twitter about Covid-19</strong> has an increasing trend since 2019. </p>
                   </div>
                 </div>
               </div>
@@ -55,41 +55,77 @@
     <script type="text/javascript">
         get_view();
         var myChart = echarts.init(document.getElementById('show'));
-        var data = [];
+        var data = {
+            city:[],
+            subjectivity:[],
+            polarity:[]
+        };
         $(document).ready(function () {
             get_view();
-            console.log(data);
+            console.log(data.city);
+            console.log(data.subjectivity);
+            console.log(data.polarity)
         });
         function get_view(){
 			$.ajax({
-                url:'/view_total',
+                url:'/view_stat',
 				timeout:10000,
 				success:function(data){
 				    json_data = JSON.parse(data)
                     console.info(json_data['key'])
+                    console.info(json_data['subjectivity'])
+                    console.info(json_data['polarity'])
                     myChart.setOption({
                         title: {
-                            text: 'Pie chart of total count of Twitter by city',
-                            left: "center"
+                            text: 'the comparision of subjectivity and polarity'
                         },
-                        tooltip:{},
-                        series: {
-                            type: 'pie',
-                            radius:'70%',
-                            center:['50%', '50%'],
-                            data: json_data['key'],
-                            label:{},
-                            fontSize: 14,
-                            position: 'outer',
-                            alignTo:'none',
-                            bleedMargin: 5
-                        }
+                        tooltip: {
+                          trigger: 'axix',
+                          axisPointer:{
+                            type: 'shadow'
+                          }
+                        },
+                        legend: {
+                            data:['subjectivity', 'polarity'],
+                            top: 30
+                        },
+
+                        xAxis: [{
+                            type: "value"
+                        }],
+                        yAxis: [{
+                          type: "category",
+                          data: data["key"]
+                        }],
+                        series: [{
+                            name: "subjectivity",
+                            type: "bar",
+                            label: {
+                                show: true,
+                                position: "inside"
+                            },
+                            emphasis:{
+                                focus: "series"
+                            },
+                            data: json_data['subjectivity']
+                        },
+                        {
+                            name: "polarity",
+                            type: "bar",
+                            label: {
+                                show: true,
+                                position: "inside"
+                            },
+                            emphasis:{
+                                focus: "series"
+                            },
+                            data: json_data['polarity']
+                        }]
                     })
 				},
 				error:function(xhr,type,errorThrown){
 				}
 			});
-
 		};
     </script>
               <div class="container-fluid">
@@ -118,7 +154,6 @@
                 <li><a href="index">Homepage</a></li>
                 <li><a href="total">Twitter Count by City</a></li>
                 <li><a href="trend">Covid-19 Trend</a></li>
-                <li><a href="income">Weekly Income</a></li>
                 <li>
                   <span class="opener">Weekly Income and Economic Index</span>
                   <ul>

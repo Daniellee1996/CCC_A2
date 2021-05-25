@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+      <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/echarts.min.js"></script>
@@ -43,57 +45,61 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
-                    <h1>Total count of twitter about Covid-19 by cities</h1>
-                    <p><strong>Twitter about Covid-19</strong> is counted by cities. </p>
+                    <h1>Weekly Income displayed by cities</h1>
+                    <p><strong>Weekly Income</strong> of each cities</p>
                   </div>
                 </div>
               </div>
             </div>
             <!-- Tables -->
             <section class="tables">
-                  <div id="show" style="width: 600px;height:400px;"></div>
+    <div id="linechart" style="width: 800px;height:400px;"></div>
     <script type="text/javascript">
-        get_view();
-        var myChart = echarts.init(document.getElementById('show'));
-        var data = [];
+        lineChart();
+        var linechart = echarts.init(document.getElementById('linechart'));
+        var data = {
+            income:[],
+            economic:[],
+        };
         $(document).ready(function () {
-            get_view();
-            console.log(data);
+            lineChart();
+            console.log(data.income);
+            console.log(data.economic);
         });
-        function get_view(){
+        function lineChart(){
 			$.ajax({
-                url:'/view_total',
+                url:'/view_relation',
 				timeout:10000,
 				success:function(data){
 				    json_data = JSON.parse(data)
-                    console.info(json_data['key'])
-                    myChart.setOption({
+                    console.info(json_data['income'])
+                    console.info(json_data['economic'])
+                    linechart.setOption({
                         title: {
-                            text: 'Pie chart of total count of Twitter by city',
-                            left: "center"
+                            text: 'the relation between economic and income'
                         },
-                        tooltip:{},
-                        series: {
-                            type: 'pie',
-                            radius:'70%',
-                            center:['50%', '50%'],
-                            data: json_data['key'],
-                            label:{},
-                            fontSize: 14,
-                            position: 'outer',
-                            alignTo:'none',
-                            bleedMargin: 5
-                        }
+                        tooltip: {},
+                        xAxis: {},
+                        yAxis: {},
+                        series: [{
+                          data: json_data['income'],
+                          type: "line"
+                        },
+                        {
+                          data: json_data['economic'],
+                          type: "line"
+                        }]
                     })
 				},
 				error:function(xhr,type,errorThrown){
 				}
 			});
-
 		};
     </script>
               <div class="container-fluid">
                 <div class="row">
+                  <div class="col-md-12">
+                  </div>
                 </div>
               </div>
             </section>
@@ -118,7 +124,6 @@
                 <li><a href="index">Homepage</a></li>
                 <li><a href="total">Twitter Count by City</a></li>
                 <li><a href="trend">Covid-19 Trend</a></li>
-                <li><a href="income">Weekly Income</a></li>
                 <li>
                   <span class="opener">Weekly Income and Economic Index</span>
                   <ul>
@@ -148,8 +153,6 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-    <script src="static/vendor/jquery/jquery.min.js"></script>
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="static/assets/js/browser.min.js"></script>
     <script src="static/assets/js/breakpoints.min.js"></script>
     <script src="static/assets/js/transition.js"></script>
