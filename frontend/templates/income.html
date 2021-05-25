@@ -9,13 +9,6 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="static/vendor/jquery/jquery.min.js"></script>
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="static/assets/js/browser.min.js"></script>
-    <script src="static/assets/js/breakpoints.min.js"></script>
-    <script src="static/assets/js/transition.js"></script>
-    <script src="static/assets/js/owl-carousel.js"></script>
-    <script src="static/assets/js/custom.js"></script>
     <script src="/static/js/echarts.min.js"></script>
     <title></title>
 
@@ -61,7 +54,7 @@
                   <div id="barchart" style="width: 800px;height:600px;"></div>
     <script type="text/javascript">
         barChart();
-        var barChart = echarts.init(document.getElementById('barchart'));
+        var barchart = echarts.init(document.getElementById('barchart'));
         var data = {
             key:[],
             income:[],
@@ -82,7 +75,7 @@
                     console.info(json_data['key'])
                     console.info(json_data['economic'])
                     console.info(json_data['income'])
-                    barChart.setOption({
+                    barchart.setOption({
                         title: {
                             text: 'the weekly salary of twitter about COVID-19'
                         },
@@ -96,12 +89,6 @@
                         legend: {
                             data:["economic", "income"],
                             top: 30
-                        },
-                        grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
                         },
                         xAxis: {
                           type: "value",
@@ -234,7 +221,13 @@
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
-
+    <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/assets/js/browser.min.js"></script>
+    <script src="static/assets/js/breakpoints.min.js"></script>
+    <script src="static/assets/js/transition.js"></script>
+    <script src="static/assets/js/owl-carousel.js"></script>
+    <script src="static/assets/js/custom.js"></script>
 
 </body>
 </html>
